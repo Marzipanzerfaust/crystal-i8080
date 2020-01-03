@@ -1,0 +1,9 @@
+name: crystal-i8080
+version: 0.1.0
+
+authors:
+  - Jeffrey Crochet <jeffrey.crochet@protonmail.com>
+
+crystal: 0.31.1
+
+license: MIT
