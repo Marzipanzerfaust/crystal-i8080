@@ -111,11 +111,9 @@
 
 <ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
 
-<pre><code> <span class="s">``</span><span class="s">`yaml
- dependencies:
-  crystal-i8080:
-    github: marzipanzerfaust/crystal-i8080
- `</span><span class="s">``</span></code></pre>
+<pre><code class="language-yaml">dependencies:
+crystal-i8080:
+  github: marzipanzerfaust/crystal-i8080</code></pre>
 
 <ol><li>Run <code>shards install</code></li></ol>
 
@@ -158,6 +156,8 @@ cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0002    INR    B</sp
 
 <pre><code class="language-crystal">cpm_machine <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPMMachine</span>.<span class="k">new</span>
 cpm_machine.load_file(<span class="s">&quot;path/to/cpm/program&quot;</span>)</code></pre>
+
+<p>For more details, check the <a href="https://marzipanzerfaust.github.io/crystal-i8080" target="_blank">documentation</a>.</p>
 </div>
 </body>
 </html>
