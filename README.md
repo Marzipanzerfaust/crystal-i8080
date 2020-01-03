@@ -14,10 +14,10 @@ If you have Crystal installed, you can check the test results yourself by runnin
 
 1. Add the dependency to your `shard.yml`:
 
-```yaml
+```
 dependencies:
-crystal-i8080:
-  github: marzipanzerfaust/crystal-i8080
+  crystal-i8080:
+    github: marzipanzerfaust/crystal-i8080
 ```
 
 2. Run `shards install`
