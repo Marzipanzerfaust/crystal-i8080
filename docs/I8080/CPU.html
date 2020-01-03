@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.32.0">
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/Marzipanzerfaust/crystal-i8080">
+  <title>I8080::CPU - github.com/Marzipanzerfaust/crystal-i8080</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
+      <a href="../I8080.html">I8080</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
+      <a href="../I8080/Byte.html">Byte</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
+      <a href="../I8080/CPMMachine.html">CPMMachine</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
+      <a href="../I8080/CPU.html">CPU</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
+      <a href="../I8080/Disassembler.html">Disassembler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
+      <a href="../I8080/Pair.html">Pair</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
+      <a href="../I8080/Word.html">Word</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> I8080::CPU
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../I8080/CPU.html">I8080::CPU</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>Emulator for the Intel 8080 CPU.</p>
+
+<p>Load a ROM and execute it:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">Intel8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
+cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
+cpu.run</code></pre>
+
+<p>Alternatively, you can create a CPU in debug mode which has an
+embedded <code><a href="../I8080/Disassembler.html">Disassembler</a></code> that will print instructions as they are
+executed:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">Intel8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
+cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
+cpu.step  <span class="c"># =&gt; 0000    LXI    SP, $1234</span>
+cpu.step  <span class="c"># =&gt; 0001    MVI    A, $56</span></code></pre>
+
+<p>This is intended to be used in applications that require an embedded
+Intel 8080 core.</p>
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-known-subclasses" class="anchor" href="#direct-known-subclasses">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct Known Subclasses
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../I8080/CPMMachine.html">I8080::CPMMachine</a></li>
+    
+  </ul>
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L22" target="_blank">
+        i8080/cpu.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(debug=false,origin=0_u16)-class-method" class="signature"><strong>.new</strong>(debug = <span class="n">false</span>, origin = <span class="n">0_u16</span>)</a>
+        
+          <div class="summary"><p>If <em>debug</em> is given, the CPU will be created in debug mode.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#a:::Pointer(Byte)-instance-method" class="signature"><strong>#a</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>High byte pointer for AF; represents the A register; also known as the <em>accumulator</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#af:I8080::Pair-instance-method" class="signature"><strong>#af</strong> : I8080::Pair</a>
+        
+          <div class="summary"><p>The AF register pair; also known as the <em>PSW</em> (Program Status Word).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#b:::Pointer(Byte)-instance-method" class="signature"><strong>#b</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>High byte pointer for BC; represents the B register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bc:I8080::Pair-instance-method" class="signature"><strong>#bc</strong> : I8080::Pair</a>
+        
+          <div class="summary"><p>The BC register pair.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#c:::Pointer(Byte)-instance-method" class="signature"><strong>#c</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>Low byte pointer for BC; represents the C register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#d:::Pointer(Byte)-instance-method" class="signature"><strong>#d</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>High byte pointer for DE; represents the D register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dasm:Disassembler?-instance-method" class="signature"><strong>#dasm</strong> : Disassembler?</a>
+        
+          <div class="summary"><p>An embedded <code><a href="../I8080/Disassembler.html">Disassembler</a></code> that is created if the CPU is initialized in debug mode.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#de:I8080::Pair-instance-method" class="signature"><strong>#de</strong> : I8080::Pair</a>
+        
+          <div class="summary"><p>The DE register pair.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#debug:Bool-instance-method" class="signature"><strong>#debug</strong> : Bool</a>
+        
+          <div class="summary"><p>Tells whether or not the CPU is in debug mode.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#e:::Pointer(Byte)-instance-method" class="signature"><strong>#e</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>Low byte pointer for DE; represents the E register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#f:::Pointer(Byte)-instance-method" class="signature"><strong>#f</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>Low byte pointer for AF; represents the F register; also known as the <em>flag register</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#file_size:Int32-instance-method" class="signature"><strong>#file_size</strong> : Int32</a>
+        
+          <div class="summary"><p>The size in bytes of the currently loaded file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#flag?(f:Byte):Bool-instance-method" class="signature"><strong>#flag?</strong>(f : Byte) : Bool</a>
+        
+          <div class="summary"><p>Is the flag <em>f</em> set?</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#h:::Pointer(Byte)-instance-method" class="signature"><strong>#h</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>High byte pointer for HL; represents the H register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hl:I8080::Pair-instance-method" class="signature"><strong>#hl</strong> : I8080::Pair</a>
+        
+          <div class="summary"><p>The HL register pair; primarily used for storing addresses.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_enabled:Bool-instance-method" class="signature"><strong>#int_enabled</strong> : Bool</a>
+        
+          <div class="summary"><p>Tells whether or not the CPU is accepting interrupts; controlled by the EI and DI instructions.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_period:Int32-instance-method" class="signature"><strong>#int_period</strong> : Int32</a>
+        
+          <div class="summary"><p>Number of CPU cycles to occur before interrupts should be serviced</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_period=(int_period)-instance-method" class="signature"><strong>#int_period=</strong>(int_period)</a>
+        
+          <div class="summary"><p>Number of CPU cycles to occur before interrupts should be serviced</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_period_callback-instance-method" class="signature"><strong>#int_period_callback</strong></a>
+        
+          <div class="summary"><p>What the CPU should do after the interrupt period expires.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_request:UInt8-instance-method" class="signature"><strong>#int_request</strong> : UInt8</a>
+        
+          <div class="summary"><p>Interrupt opcode to be set by peripheral devices.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#int_request=(int_request)-instance-method" class="signature"><strong>#int_request=</strong>(int_request)</a>
+        
+          <div class="summary"><p>Interrupt opcode to be set by peripheral devices.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#io:Slice(UInt8)-instance-method" class="signature"><strong>#io</strong> : Slice(UInt8)</a>
+        
+          <div class="summary"><p>The I/O space for the CPU (size 0xFF).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#l:::Pointer(Byte)-instance-method" class="signature"><strong>#l</strong> : ::Pointer(Byte)</a>
+        
+          <div class="summary"><p>Low byte pointer for HL; represents the L register.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#load_file(filename:String)-instance-method" class="signature"><strong>#load_file</strong>(filename : String)</a>
+        
+          <div class="summary"><p>Loads the contents of <em>filename</em> into the CPU's memory, starting at the origin.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#memory:Slice(UInt8)-instance-method" class="signature"><strong>#memory</strong> : Slice(UInt8)</a>
+        
+          <div class="summary"><p>The memory space for the CPU (size 0xFFFF).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#origin:Word-instance-method" class="signature"><strong>#origin</strong> : Word</a>
+        
+          <div class="summary"><p>The address at which the CPU should begin execution in the loaded file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#origin=(origin:Word)-instance-method" class="signature"><strong>#origin=</strong>(origin : Word)</a>
+        
+          <div class="summary"><p>The address at which the CPU should begin execution in the loaded file.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pc:Pair-instance-method" class="signature"><strong>#pc</strong> : Pair</a>
+        
+          <div class="summary"><p>The <em>program counter</em>, which keeps track of which byte in the ROM is about to be executed by the CPU.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pop_byte:Byte-instance-method" class="signature"><strong>#pop_byte</strong> : Byte</a>
+        
+          <div class="summary"><p>Pops a byte off the stack, returning it and incrementing the stack pointer.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#pop_word:Word-instance-method" class="signature"><strong>#pop_word</strong> : Word</a>
+        
+          <div class="summary"><p>Pops a word off the stack, returning it and incrementing the stack pointer by two.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#push_byte(byte:Byte)-instance-method" class="signature"><strong>#push_byte</strong>(byte : Byte)</a>
+        
+          <div class="summary"><p>Pushes the given byte onto the stack, decrementing the stack pointer.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#push_word(word:Word)-instance-method" class="signature"><strong>#push_word</strong>(word : Word)</a>
+        
+          <div class="summary"><p>Pushes the given word onto the stack, decrementing the stack pointer by two.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_byte(addr:Word):Byte-instance-method" class="signature"><strong>#read_byte</strong>(addr : Word) : Byte</a>
+        
+          <div class="summary"><p>Returns the byte at the given address.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_io(port:Byte):Byte-instance-method" class="signature"><strong>#read_io</strong>(port : Byte) : Byte</a>
+        
+          <div class="summary"><p>Returns the byte in the I/O port given by <em>port</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_word(addr:Word):Word-instance-method" class="signature"><strong>#read_word</strong>(addr : Word) : Word</a>
+        
+          <div class="summary"><p>Returns the word at the given address.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset-instance-method" class="signature"><strong>#reset</strong></a>
+        
+          <div class="summary"><p>Resets all registers and flags to their initial values, along with the embedded disassembler if debug mode is active.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset_flag(f:Byte)-instance-method" class="signature"><strong>#reset_flag</strong>(f : Byte)</a>
+        
+          <div class="summary"><p>Resets the the flag represented by <em>f</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#reset_io(port:Byte,bit:Byte)-instance-method" class="signature"><strong>#reset_io</strong>(port : Byte, bit : Byte)</a>
+        
+          <div class="summary"><p>Resets the bit corresponding to <em>bit</em> in the I/O port given by <em>port</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#run-instance-method" class="signature"><strong>#run</strong></a>
+        
+          <div class="summary"><p>Executes instructions until execution is halted.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#set_flag(f:Byte)-instance-method" class="signature"><strong>#set_flag</strong>(f : Byte)</a>
+        
+          <div class="summary"><p>Sets the flag represented by <em>f</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#set_io(port:Byte,bit:Byte)-instance-method" class="signature"><strong>#set_io</strong>(port : Byte, bit : Byte)</a>
+        
+          <div class="summary"><p>Sets the bit corresponding to <em>bit</em> in the I/O port given by <em>port</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sp:I8080::Pair-instance-method" class="signature"><strong>#sp</strong> : I8080::Pair</a>
+        
+          <div class="summary"><p>The <em>stack pointer</em>, used in stack operations.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#step(n=1)-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>)</a>
+        
+          <div class="summary"><p>Executes <em>n</em> instructions and increments the program counter accordingly.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stop-instance-method" class="signature"><strong>#stop</strong></a>
+        
+          <div class="summary"><p>Halts execution.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stopped:Bool-instance-method" class="signature"><strong>#stopped</strong> : Bool</a>
+        
+          <div class="summary"><p>Tells whether or not the CPU has halted execution.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write_byte(addr:Word,value:Byte)-instance-method" class="signature"><strong>#write_byte</strong>(addr : Word, value : Byte)</a>
+        
+          <div class="summary"><p>Writes the given byte to the given address.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write_bytes(addr:Word,bytes:Bytes)-instance-method" class="signature"><strong>#write_bytes</strong>(addr : Word, bytes : Bytes)</a>
+        
+          <div class="summary"><p>Writes <em>bytes</em> to memory sequentially starting at <em>addr</em>; useful for strings.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write_io(port:Byte,x:Byte)-instance-method" class="signature"><strong>#write_io</strong>(port : Byte, x : Byte)</a>
+        
+          <div class="summary"><p>Writes the given byte <em>x</em> to the I/O port given by <em>port</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#write_word(addr:Word,value:Word)-instance-method" class="signature"><strong>#write_word</strong>(addr : Word, value : Word)</a>
+        
+          <div class="summary"><p>Writes the given word to the given address.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(debug=false,origin=0_u16)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(debug = <span class="n">false</span>, origin = <span class="n">0_u16</span>)
+
+        <a class="method-permalink" href="#new(debug=false,origin=0_u16)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>If <em>debug</em> is given, the CPU will be created in debug mode. If
+<em>origin</em> is given, the CPU's program counter will start at the
+specified address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L120" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="a:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>a</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#a:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>High byte pointer for AF; represents the A register; also known as
+the <em>accumulator</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="af:I8080::Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>af</strong> : <a href="../I8080/Pair.html">I8080::Pair</a>
+
+        <a class="method-permalink" href="#af:I8080::Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The AF register pair; also known as the <em>PSW</em> (Program Status Word).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="b:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>b</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#b:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>High byte pointer for BC; represents the B register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bc:I8080::Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>bc</strong> : <a href="../I8080/Pair.html">I8080::Pair</a>
+
+        <a class="method-permalink" href="#bc:I8080::Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The BC register pair.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="c:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>c</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#c:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Low byte pointer for BC; represents the C register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="d:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>d</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#d:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>High byte pointer for DE; represents the D register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L49" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dasm:Disassembler?-instance-method">
+      <div class="signature">
+        
+        def <strong>dasm</strong> : <a href="../I8080/Disassembler.html">Disassembler</a>?
+
+        <a class="method-permalink" href="#dasm:Disassembler?-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>An embedded <code><a href="../I8080/Disassembler.html">Disassembler</a></code> that is created if the CPU is initialized
+in debug mode.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="de:I8080::Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>de</strong> : <a href="../I8080/Pair.html">I8080::Pair</a>
+
+        <a class="method-permalink" href="#de:I8080::Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The DE register pair.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="debug:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>debug</strong> : Bool
+
+        <a class="method-permalink" href="#debug:Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tells whether or not the CPU is in debug mode.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L111" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="e:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>e</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#e:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Low byte pointer for DE; represents the E register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="f:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>f</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#f:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Low byte pointer for AF; represents the F register; also known as
+the <em>flag register</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="file_size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>file_size</strong> : Int32
+
+        <a class="method-permalink" href="#file_size:Int32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The size in bytes of the currently loaded file.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="flag?(f:Byte):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>flag?</strong>(f : <a href="../I8080/Byte.html">Byte</a>) : Bool
+
+        <a class="method-permalink" href="#flag?(f:Byte):Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Is the flag <em>f</em> set?</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L605" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="h:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>h</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#h:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>High byte pointer for HL; represents the H register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hl:I8080::Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>hl</strong> : <a href="../I8080/Pair.html">I8080::Pair</a>
+
+        <a class="method-permalink" href="#hl:I8080::Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The HL register pair; primarily used for storing addresses.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L30" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_enabled:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>int_enabled</strong> : Bool
+
+        <a class="method-permalink" href="#int_enabled:Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tells whether or not the CPU is accepting interrupts; controlled by
+the EI and DI instructions.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_period:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>int_period</strong> : Int32
+
+        <a class="method-permalink" href="#int_period:Int32-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Number of CPU cycles to occur before interrupts should be serviced</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L65" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_period=(int_period)-instance-method">
+      <div class="signature">
+        
+        def <strong>int_period=</strong>(int_period)
+
+        <a class="method-permalink" href="#int_period=(int_period)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Number of CPU cycles to occur before interrupts should be serviced</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L65" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_period_callback-instance-method">
+      <div class="signature">
+        
+        def <strong>int_period_callback</strong>
+
+        <a class="method-permalink" href="#int_period_callback-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>What the CPU should do after the interrupt period expires.</p>
+
+<p><span class="flag purple">NOTE</span>  This is a no-op; it is implemented by user machines to handle
+periodic tasks, such as refreshing the display.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L311" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_request:UInt8-instance-method">
+      <div class="signature">
+        
+        def <strong>int_request</strong> : UInt8
+
+        <a class="method-permalink" href="#int_request:UInt8-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Interrupt opcode to be set by peripheral devices.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L62" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_request=(int_request)-instance-method">
+      <div class="signature">
+        
+        def <strong>int_request=</strong>(int_request)
+
+        <a class="method-permalink" href="#int_request=(int_request)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Interrupt opcode to be set by peripheral devices.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L62" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="io:Slice(UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>io</strong> : Slice(UInt8)
+
+        <a class="method-permalink" href="#io:Slice(UInt8)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The I/O space for the CPU (size 0xFF).</p>
+
+<p>Each byte represents the state of an I/O port. To interact with I/O
+ports, see the <code><a href="../I8080/CPU.html#read_io(port:Byte):Byte-instance-method">#read_io</a></code>, <code><a href="../I8080/CPU.html#write_io(port:Byte,x:Byte)-instance-method">#write_io</a></code>, <code><a href="../I8080/CPU.html#set_io(port:Byte,bit:Byte)-instance-method">#set_io</a></code>, and <code><a href="../I8080/CPU.html#reset_io(port:Byte,bit:Byte)-instance-method">#reset_io</a></code>
+methods.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L88" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="l:::Pointer(Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>l</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#l:::Pointer(Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Low byte pointer for HL; represents the L register.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="load_file(filename:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>load_file</strong>(filename : String)
+
+        <a class="method-permalink" href="#load_file(filename:String)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Loads the contents of <em>filename</em> into the CPU's memory, starting at
+the origin.</p>
+
+<p>If debug mode is active, will print a message to STDOUT with the
+file name and the number of bytes in the file.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L154" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="memory:Slice(UInt8)-instance-method">
+      <div class="signature">
+        
+        def <strong>memory</strong> : Slice(UInt8)
+
+        <a class="method-permalink" href="#memory:Slice(UInt8)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The memory space for the CPU (size 0xFFFF).</p>
+
+<p>To interact with memory, see the <code><a href="../I8080/CPU.html#read_byte(addr:Word):Byte-instance-method">#read_byte</a></code>, <code><a href="../I8080/CPU.html#read_word(addr:Word):Word-instance-method">#read_word</a></code>,
+<code><a href="../I8080/CPU.html#write_byte(addr:Word,value:Byte)-instance-method">#write_byte</a></code>, <code><a href="../I8080/CPU.html#write_word(addr:Word,value:Word)-instance-method">#write_word</a></code>, and <code><a href="../I8080/CPU.html#write_bytes(addr:Word,bytes:Bytes)-instance-method">#write_bytes</a></code> methods.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L78" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="origin:Word-instance-method">
+      <div class="signature">
+        
+        def <strong>origin</strong> : <a href="../I8080/Word.html">Word</a>
+
+        <a class="method-permalink" href="#origin:Word-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The address at which the CPU should begin execution in the loaded
+file.</p>
+
+<p>Defaults to 0 (address 0x0000). To change this to something else,
+you can create a new CPU and specify the origin as a keyword
+argument:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(origin: <span class="n">0x0100_u16</span>)
+cpu.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
+
+<p>Or, you can change the origin on an existing CPU and call the
+<code><a href="../I8080/CPU.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+accordingly:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
+cpu.origin <span class="o">=</span> <span class="n">0x0100_u16</span>
+cpu.reset</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="origin=(origin:Word)-instance-method">
+      <div class="signature">
+        
+        def <strong>origin=</strong>(origin : <a href="../I8080/Word.html">Word</a>)
+
+        <a class="method-permalink" href="#origin=(origin:Word)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The address at which the CPU should begin execution in the loaded
+file.</p>
+
+<p>Defaults to 0 (address 0x0000). To change this to something else,
+you can create a new CPU and specify the origin as a keyword
+argument:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(origin: <span class="n">0x0100_u16</span>)
+cpu.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
+
+<p>Or, you can change the origin on an existing CPU and call the
+<code><a href="../I8080/CPU.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+accordingly:</p>
+
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
+cpu.origin <span class="o">=</span> <span class="n">0x0100_u16</span>
+cpu.reset</code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L108" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pc:Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>pc</strong> : <a href="../I8080/Pair.html">Pair</a>
+
+        <a class="method-permalink" href="#pc:Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The <em>program counter</em>, which keeps track of which byte in the ROM is
+about to be executed by the CPU.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pop_byte:Byte-instance-method">
+      <div class="signature">
+        
+        def <strong>pop_byte</strong> : <a href="../I8080/Byte.html">Byte</a>
+
+        <a class="method-permalink" href="#pop_byte:Byte-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pops a byte off the stack, returning it and incrementing the stack pointer.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L218" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="pop_word:Word-instance-method">
+      <div class="signature">
+        
+        def <strong>pop_word</strong> : <a href="../I8080/Word.html">Word</a>
+
+        <a class="method-permalink" href="#pop_word:Word-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pops a word off the stack, returning it and incrementing the stack
+pointer by two.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L225" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="push_byte(byte:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>push_byte</strong>(byte : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#push_byte(byte:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pushes the given byte onto the stack, decrementing the stack
+pointer.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L203" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="push_word(word:Word)-instance-method">
+      <div class="signature">
+        
+        def <strong>push_word</strong>(word : <a href="../I8080/Word.html">Word</a>)
+
+        <a class="method-permalink" href="#push_word(word:Word)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Pushes the given word onto the stack, decrementing the stack pointer
+by two.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L210" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_byte(addr:Word):Byte-instance-method">
+      <div class="signature">
+        
+        def <strong>read_byte</strong>(addr : <a href="../I8080/Word.html">Word</a>) : <a href="../I8080/Byte.html">Byte</a>
+
+        <a class="method-permalink" href="#read_byte(addr:Word):Byte-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the byte at the given address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L173" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_io(port:Byte):Byte-instance-method">
+      <div class="signature">
+        
+        def <strong>read_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>) : <a href="../I8080/Byte.html">Byte</a>
+
+        <a class="method-permalink" href="#read_io(port:Byte):Byte-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the byte in the I/O port given by <em>port</em>.</p>
+
+<p><span class="flag purple">NOTE</span>  Port numbers start at 1.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L232" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_word(addr:Word):Word-instance-method">
+      <div class="signature">
+        
+        def <strong>read_word</strong>(addr : <a href="../I8080/Word.html">Word</a>) : <a href="../I8080/Word.html">Word</a>
+
+        <a class="method-permalink" href="#read_word(addr:Word):Word-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns the word at the given address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L178" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset-instance-method">
+      <div class="signature">
+        
+        def <strong>reset</strong>
+
+        <a class="method-permalink" href="#reset-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Resets all registers and flags to their initial values, along with
+the embedded disassembler if debug mode is active.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L135" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset_flag(f:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>reset_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#reset_flag(f:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Resets the the flag represented by <em>f</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L600" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="reset_io(port:Byte,bit:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>reset_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#reset_io(port:Byte,bit:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Resets the bit corresponding to <em>bit</em> in the I/O port given by
+<em>port</em>.</p>
+
+<p><span class="flag purple">NOTE</span>  Port numbers start at 1.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L254" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="run-instance-method">
+      <div class="signature">
+        
+        def <strong>run</strong>
+
+        <a class="method-permalink" href="#run-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Executes instructions until execution is halted.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L578" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="set_flag(f:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>set_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#set_flag(f:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets the flag represented by <em>f</em>.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L595" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="set_io(port:Byte,bit:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>set_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#set_io(port:Byte,bit:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets the bit corresponding to <em>bit</em> in the I/O port given by <em>port</em>.</p>
+
+<p><span class="flag purple">NOTE</span>  Port numbers start at 1.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L246" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sp:I8080::Pair-instance-method">
+      <div class="signature">
+        
+        def <strong>sp</strong> : <a href="../I8080/Pair.html">I8080::Pair</a>
+
+        <a class="method-permalink" href="#sp:I8080::Pair-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>The <em>stack pointer</em>, used in stack operations.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="step(n=1)-instance-method">
+      <div class="signature">
+        
+        def <strong>step</strong>(n = <span class="n">1</span>)
+
+        <a class="method-permalink" href="#step(n=1)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Executes <em>n</em> instructions and increments the program counter
+accordingly.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L269" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stop-instance-method">
+      <div class="signature">
+        
+        def <strong>stop</strong>
+
+        <a class="method-permalink" href="#stop-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Halts execution.</p>
+
+<p>Call <code><a href="../I8080/CPU.html#run-instance-method">#run</a></code> to resume.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L590" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stopped:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>stopped</strong> : Bool
+
+        <a class="method-permalink" href="#stopped:Bool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tells whether or not the CPU has halted execution.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L70" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write_byte(addr:Word,value:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>write_byte</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#write_byte(addr:Word,value:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Writes the given byte to the given address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L183" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write_bytes(addr:Word,bytes:Bytes)-instance-method">
+      <div class="signature">
+        
+        def <strong>write_bytes</strong>(addr : <a href="../I8080/Word.html">Word</a>, bytes : Bytes)
+
+        <a class="method-permalink" href="#write_bytes(addr:Word,bytes:Bytes)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Writes <em>bytes</em> to memory sequentially starting at <em>addr</em>; useful for
+strings.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L189" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write_io(port:Byte,x:Byte)-instance-method">
+      <div class="signature">
+        
+        def <strong>write_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, x : <a href="../I8080/Byte.html">Byte</a>)
+
+        <a class="method-permalink" href="#write_io(port:Byte,x:Byte)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Writes the given byte <em>x</em> to the I/O port given by <em>port</em>.</p>
+
+<p><span class="flag purple">NOTE</span>  Port numbers start at 1.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L239" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="write_word(addr:Word,value:Word)-instance-method">
+      <div class="signature">
+        
+        def <strong>write_word</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Word.html">Word</a>)
+
+        <a class="method-permalink" href="#write_word(addr:Word,value:Word)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Writes the given word to the given address.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4609121967efb1b4a9c3498810c0f36d18b6ff2b/src/i8080/cpu.cr#L194" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

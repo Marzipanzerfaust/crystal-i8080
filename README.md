@@ -1,6 +1,6 @@
 # crystal-i8080
 
-**WIP**
+**WIP: partly functional**
 
 This is a simple intrepretive emulator for the [Intel 8080](https://en.wikipedia.org/wiki/Intel_8080) written in [Crystal](https://crystal-lang.org/). It is intended to be used as a core for projects that require an embedded i8080 CPU. I wrote it because 1) I wanted to learn more about Crystal and 2) I wanted to learn about writing emulators.
 
@@ -67,3 +67,5 @@ There is also a very barebones CP/M implementation:
 cpm_machine = I8080::CPMMachine.new
 cpm_machine.load_file("path/to/cpm/program")
 ```
+
+For more details, check the [documentation](https://marzipanzerfaust.github.io/crystal-i8080).

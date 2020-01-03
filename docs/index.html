@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.32.0">
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/Marzipanzerfaust/crystal-i8080">
+  <title>README - github.com/Marzipanzerfaust/crystal-i8080</title>
+  <script type="text/javascript">
+  CrystalDoc.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
+      <a href="I8080.html">I8080</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
+      <a href="I8080/Byte.html">Byte</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
+      <a href="I8080/CPMMachine.html">CPMMachine</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
+      <a href="I8080/CPU.html">CPU</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
+      <a href="I8080/Disassembler.html">Disassembler</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
+      <a href="I8080/Pair.html">Pair</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
+      <a href="I8080/Word.html">Word</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1><a id="crystal-i8080" class="anchor" href="#crystal-i8080">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>crystal-i8080</h1>
+
+<p><strong>WIP: partly functional</strong></p>
+
+<p>This is a simple intrepretive emulator for the <a href="https://en.wikipedia.org/wiki/Intel_8080" target="_blank">Intel 8080</a> written in <a href="https://crystal-lang.org/" target="_blank">Crystal</a>. It is intended to be used as a core for projects that require an embedded i8080 CPU. I wrote it because 1) I wanted to learn more about Crystal and 2) I wanted to learn about writing emulators.</p>
+
+<p>In addition to the CPU itself, there is a very simple CP/M machine (<code><a href="I8080/CPMMachine.html">I8080::CPMMachine</a></code>) that emulates simple CP/M I/O calls. It isn't a fully functional emulator, but it should be enough to test simple CP/M programs, such as diagnostic tests.</p>
+
+<p>I have tested this using my own spec derived from examples in the 8080 Programmer's Manual; this is located at <code>spec/i8080/cpu_spec.cr</code>. I have also used Ian Bartholomew's 8080/8085 Exerciser, the files of which are courtesy of <a href="https://github.com/begoon/8080ex1" target="_blank">begoon/8080ex1</a>; these are located in <code>vendor/cpu_diagnostics</code>.</p>
+
+<p>If you have Crystal installed, you can check the test results yourself by running <code>crystal spec</code> from the root directory; just be warned that the 8080/8085 Exerciser spec can take several minutes to complete.</p>
+
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+
+<ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
+
+<pre><code> <span class="s">``</span><span class="s">`yaml
+ dependencies:
+  crystal-i8080:
+    github: marzipanzerfaust/crystal-i8080
+ `</span><span class="s">``</span></code></pre>
+
+<ol><li>Run <code>shards install</code></li></ol>
+
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;i8080&quot;</span></code></pre>
+
+<p>Load a ROM and execute it:</p>
+
+<pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
+cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
+cpu.run</code></pre>
+
+<p>Disassemble a ROM, printing the instructions to STDOUT:</p>
+
+<pre><code class="language-crystal">dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>
+dasm.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
+dasm.run
+<span class="c"># Output:</span>
+<span class="c"># 0000    LXI    SP, $1234</span>
+<span class="c"># 0001    INR    A</span>
+<span class="c"># 0002    INR    B</span>
+<span class="c"># 0003    JMP    #5678</span>
+<span class="c"># ...</span></code></pre>
+
+<p>Alternatively, you can create a CPU in debug mode, which will use an embedded disassembler to print instructions to STDOUT as they're executed:</p>
+
+<pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
+cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
+cpu.step     <span class="c"># =&gt; 0000    LXI    SP, $1234</span>
+cpu.step     <span class="c"># =&gt; 0001    INR    A</span>
+cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0002    INR    B</span>
+             <span class="c"># =&gt; 0003    JMP    #5678</span></code></pre>
+
+<p>There is also a very barebones CP/M implementation:</p>
+
+<pre><code class="language-crystal">cpm_machine <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPMMachine</span>.<span class="k">new</span>
+cpm_machine.load_file(<span class="s">&quot;path/to/cpm/program&quot;</span>)</code></pre>
+</div>
+</body>
+</html>
