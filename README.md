@@ -6,7 +6,7 @@ This is a simple intrepretive emulator for the [Intel 8080](https://en.wikipedia
 
 In addition to the CPU itself, there is a very simple CP/M machine (`I8080::CPMMachine`) that emulates simple CP/M I/O calls. It isn't a fully functional emulator, but it should be enough to test simple CP/M programs, such as diagnostic tests.
 
-I have tested this using my own spec derived from examples in the 8080 Programmer's Manual; this is located at `spec/i8080/cpu_spec.cr`. I have also used Ian Bartholomew's 8080/8085 Exerciser, the files of which are courtesy of [begoon/8080ex1](https://github.com/begoon/8080ex1); these are located in `vendor/cpu_diagnostics`.
+I have tested this using my own spec derived from examples in the 8080 Programmer's Manual; this is located at `spec/cpu_spec.cr`. I have also used Ian Bartholomew's 8080/8085 Exerciser, the files of which are courtesy of [begoon/8080ex1](https://github.com/begoon/8080ex1); these are located in `vendor/cpu_diagnostics`.
 
 If you have Crystal installed, you can check the test results yourself by running `crystal spec` from the root directory; just be warned that the 8080/8085 Exerciser spec can take several minutes to complete.
 

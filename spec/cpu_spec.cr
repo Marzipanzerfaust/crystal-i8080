@@ -1,7 +1,4 @@
-require "spec"
-require "../../src/i8080"
-
-include I8080
+require "./spec_helper"
 
 cpu = CPU.new
 
@@ -124,7 +121,7 @@ describe CPU do
       cpu.flag?(ZF).should be_false
       cpu.flag?(CF).should be_true
       test cmp3
-      cpu.flag?(CF).should be_true
+      cpu.flag?(CF).should be_false
     end
   end
 
@@ -155,7 +152,7 @@ describe CPU do
   describe "#rar" do
     it "rotates the accumulator right by one with carry" do
       test rar
-      cpu.a.value.should eq 0xB5
+      cpu.a.value.should eq 0b10110101
       cpu.flag?(CF).should be_false
     end
   end
@@ -174,7 +171,7 @@ describe CPU do
       test pop
       cpu.l.value.should eq 0x3D
       cpu.h.value.should eq 0x93
-      cpu.sp.w.should eq 0x123B
+      cpu.sp.w.should eq 0x123A
     end
   end
 
@@ -215,8 +212,8 @@ describe CPU do
       test xthl
       cpu.l.value.should eq 0xF0
       cpu.h.value.should eq 0x0D
-      cpu.read_byte(cpu.sp.w).should eq 0x0B
-      cpu.read_byte(cpu.sp.w + 1).should eq 0x3C
+      cpu.read_byte(cpu.sp.w).should eq 0x3C
+      cpu.read_byte(cpu.sp.w + 1).should eq 0x0B
     end
   end
 
@@ -266,18 +263,12 @@ describe CPU do
 
   describe "#sbi" do
     it "subtracts the next byte from the accumulator with borrow" do
-      test sbi1
+      test sbi
       cpu.a.value.should eq 0xFF
       cpu.flag?(CF).should be_true
       cpu.flag?(ZF).should be_false
       cpu.flag?(AF).should be_false
       cpu.flag?(SF|PF).should be_true
-      test sbi2
-      cpu.a.value.should eq 0xFD
-      cpu.flag?(CF|SF).should be_true
-      cpu.flag?(ZF).should be_false
-      cpu.flag?(PF).should be_false
-      cpu.flag?(AF).should be_false
     end
   end
 
@@ -339,27 +330,6 @@ describe CPU do
       test lhld
       cpu.l.value.should eq 0xFF
       cpu.h.value.should eq 0x03
-    end
-  end
-
-  describe "#pchl" do
-    it "replaces the program counter with HL" do
-      test pchl
-      cpu.pc.w.should eq 0x413E
-    end
-  end
-
-  describe "#jmp" do
-    it "replaces the program counter with the given address" do
-      test jmp
-      cpu.pc.w.should eq 3
-    end
-  end
-
-  describe "#rst" do
-    it "calls a low memory subroutine" do
-      test rst
-      cpu.pc.w.should eq 0x0024
     end
   end
 end
