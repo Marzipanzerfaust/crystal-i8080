@@ -95,10 +95,6 @@ class I8080::Disassembler
     "$%04X" % next_word
   end
 
-  private def str_addr : String
-    "#%04X" % next_word
-  end
-
   private def strs(x : Byte) : Array(String)
     case x
     when 0x00
@@ -121,17 +117,17 @@ class I8080::Disassembler
       ["NOP"]
     when 0x09
       ["DAD", "B"]
-    when 0x0a
+    when 0x0A
       ["LDAX", "B"]
-    when 0x0b
+    when 0x0B
       ["DCX", "B"]
-    when 0x0c
+    when 0x0C
       ["INR", "C"]
-    when 0x0d
+    when 0x0D
       ["DCR", "C"]
-    when 0x0e
+    when 0x0E
       ["MVI", "C", str_byte]
-    when 0x0f
+    when 0x0F
       ["RRC"]
     when 0x10
       ["NOP"]
@@ -153,24 +149,24 @@ class I8080::Disassembler
       ["NOP"]
     when 0x19
       ["DAD", "D"]
-    when 0x1a
+    when 0x1A
       ["LDAX", "D"]
-    when 0x1b
+    when 0x1B
       ["DCX", "D"]
-    when 0x1c
+    when 0x1C
       ["INR", "E"]
-    when 0x1d
+    when 0x1D
       ["DCR", "E"]
-    when 0x1e
+    when 0x1E
       ["MVI", "E", str_byte]
-    when 0x1f
+    when 0x1F
       ["RAR"]
     when 0x20
       ["NOP"]
     when 0x21
       ["LXI", "H", str_word]
     when 0x22
-      ["SHLD", str_addr]
+      ["SHLD", str_word]
     when 0x23
       ["INX", "H"]
     when 0x24
@@ -185,24 +181,24 @@ class I8080::Disassembler
       ["NOP"]
     when 0x29
       ["DAD", "H"]
-    when 0x2a
-      ["LHLD", str_addr]
-    when 0x2b
+    when 0x2A
+      ["LHLD", str_word]
+    when 0x2B
       ["DCX", "H"]
-    when 0x2c
+    when 0x2C
       ["INR", "L"]
-    when 0x2d
+    when 0x2D
       ["DCR", "L"]
-    when 0x2e
+    when 0x2E
       ["MVI", "L", str_byte]
-    when 0x2f
+    when 0x2F
       ["CMA"]
     when 0x30
       ["NOP"]
     when 0x31
       ["LXI", "SP", str_word]
     when 0x32
-      ["STA", str_addr]
+      ["STA", str_word]
     when 0x33
       ["INX", "SP"]
     when 0x34
@@ -217,17 +213,17 @@ class I8080::Disassembler
       ["NOP"]
     when 0x39
       ["DAD", "SP"]
-    when 0x3a
-      ["LDA", str_addr]
-    when 0x3b
+    when 0x3A
+      ["LDA", str_word]
+    when 0x3B
       ["DCX", "SP"]
-    when 0x3c
+    when 0x3C
       ["INR", "A"]
-    when 0x3d
+    when 0x3D
       ["DCR", "A"]
-    when 0x3e
+    when 0x3E
       ["MVI", "A", str_byte]
-    when 0x3f
+    when 0x3F
       ["CMC"]
     when 0x40
       ["MOV", "B", "B"]
@@ -249,17 +245,17 @@ class I8080::Disassembler
       ["MOV", "C", "B"]
     when 0x49
       ["MOV", "C", "C"]
-    when 0x4a
+    when 0x4A
       ["MOV", "C", "D"]
-    when 0x4b
+    when 0x4B
       ["MOV", "C", "E"]
-    when 0x4c
+    when 0x4C
       ["MOV", "C", "H"]
-    when 0x4d
+    when 0x4D
       ["MOV", "C", "L"]
-    when 0x4e
+    when 0x4E
       ["MOV", "C", "M"]
-    when 0x4f
+    when 0x4F
       ["MOV", "C", "A"]
     when 0x50
       ["MOV", "D", "B"]
@@ -281,17 +277,17 @@ class I8080::Disassembler
       ["MOV", "E", "B"]
     when 0x59
       ["MOV", "E", "C"]
-    when 0x5a
+    when 0x5A
       ["MOV", "E", "D"]
-    when 0x5b
+    when 0x5B
       ["MOV", "E", "E"]
-    when 0x5c
+    when 0x5C
       ["MOV", "E", "H"]
-    when 0x5d
+    when 0x5D
       ["MOV", "E", "L"]
-    when 0x5e
+    when 0x5E
       ["MOV", "E", "M"]
-    when 0x5f
+    when 0x5F
       ["MOV", "E", "A"]
     when 0x60
       ["MOV", "H", "B"]
@@ -313,17 +309,17 @@ class I8080::Disassembler
       ["MOV", "L", "B"]
     when 0x69
       ["MOV", "L", "C"]
-    when 0x6a
+    when 0x6A
       ["MOV", "L", "D"]
-    when 0x6b
+    when 0x6B
       ["MOV", "L", "E"]
-    when 0x6c
+    when 0x6C
       ["MOV", "L", "H"]
-    when 0x6d
+    when 0x6D
       ["MOV", "L", "L"]
-    when 0x6e
+    when 0x6E
       ["MOV", "L", "M"]
-    when 0x6f
+    when 0x6F
       ["MOV", "L", "A"]
     when 0x70
       ["MOV", "M", "B"]
@@ -345,17 +341,17 @@ class I8080::Disassembler
       ["MOV", "A", "B"]
     when 0x79
       ["MOV", "A", "C"]
-    when 0x7a
+    when 0x7A
       ["MOV", "A", "D"]
-    when 0x7b
+    when 0x7B
       ["MOV", "A", "E"]
-    when 0x7c
+    when 0x7C
       ["MOV", "A", "H"]
-    when 0x7d
+    when 0x7D
       ["MOV", "A", "L"]
-    when 0x7e
+    when 0x7E
       ["MOV", "A", "M"]
-    when 0x7f
+    when 0x7F
       ["MOV", "A", "A"]
     when 0x80
       ["ADD", "B"]
@@ -377,17 +373,17 @@ class I8080::Disassembler
       ["ADC", "B"]
     when 0x89
       ["ADC", "C"]
-    when 0x8a
+    when 0x8A
       ["ADC", "D"]
-    when 0x8b
+    when 0x8B
       ["ADC", "E"]
-    when 0x8c
+    when 0x8C
       ["ADC", "H"]
-    when 0x8d
+    when 0x8D
       ["ADC", "L"]
-    when 0x8e
+    when 0x8E
       ["ADC", "M"]
-    when 0x8f
+    when 0x8F
       ["ADC", "A"]
     when 0x90
       ["SUB", "B"]
@@ -409,230 +405,229 @@ class I8080::Disassembler
       ["SBB", "B"]
     when 0x99
       ["SBB", "C"]
-    when 0x9a
+    when 0x9A
       ["SBB", "D"]
-    when 0x9b
+    when 0x9B
       ["SBB", "E"]
-    when 0x9c
+    when 0x9C
       ["SBB", "H"]
-    when 0x9d
+    when 0x9D
       ["SBB", "L"]
-    when 0x9e
+    when 0x9E
       ["SBB", "M"]
-    when 0x9f
+    when 0x9F
       ["SBB", "A"]
-    when 0xa0
+    when 0xA0
       ["ANA", "B"]
-    when 0xa1
+    when 0xA1
       ["ANA", "C"]
-    when 0xa2
+    when 0xA2
       ["ANA", "D"]
-    when 0xa3
+    when 0xA3
       ["ANA", "E"]
-    when 0xa4
+    when 0xA4
       ["ANA", "H"]
-    when 0xa5
+    when 0xA5
       ["ANA", "L"]
-    when 0xa6
+    when 0xA6
       ["ANA", "M"]
-    when 0xa7
+    when 0xA7
       ["ANA", "A"]
-    when 0xa8
+    when 0xA8
       ["XRA", "B"]
-    when 0xa9
+    when 0xA9
       ["XRA", "C"]
-    when 0xaa
+    when 0xAA
       ["XRA", "D"]
-    when 0xab
+    when 0xAB
       ["XRA", "E"]
-    when 0xac
+    when 0xAC
       ["XRA", "H"]
-    when 0xad
+    when 0xAD
       ["XRA", "L"]
-    when 0xae
+    when 0xAE
       ["XRA", "M"]
-    when 0xaf
+    when 0xAF
       ["XRA", "A"]
-    when 0xb0
+    when 0xB0
       ["ORA", "B"]
-    when 0xb1
+    when 0xB1
       ["ORA", "C"]
-    when 0xb2
+    when 0xB2
       ["ORA", "D"]
-    when 0xb3
+    when 0xB3
       ["ORA", "E"]
-    when 0xb4
+    when 0xB4
       ["ORA", "H"]
-    when 0xb5
+    when 0xB5
       ["ORA", "L"]
-    when 0xb6
+    when 0xB6
       ["ORA", "M"]
-    when 0xb7
+    when 0xB7
       ["ORA", "A"]
-    when 0xb8
+    when 0xB8
       ["CMP", "B"]
-    when 0xb9
+    when 0xB9
       ["CMP", "C"]
-    when 0xba
+    when 0xBA
       ["CMP", "D"]
-    when 0xbb
+    when 0xBB
       ["CMP", "E"]
-    when 0xbc
+    when 0xBC
       ["CMP", "H"]
-    when 0xbd
+    when 0xBD
       ["CMP", "L"]
-    when 0xbe
+    when 0xBE
       ["CMP", "M"]
-    when 0xbf
+    when 0xBF
       ["CMP", "A"]
-    when 0xc0
+    when 0xC0
       ["RNZ"]
-    when 0xc1
+    when 0xC1
       ["POP", "B"]
-    when 0xc2
-      ["JNZ", str_addr]
-    when 0xc3
-      ["JMP", str_addr]
-    when 0xc4
-      ["CNZ", str_addr]
-    when 0xc5
+    when 0xC2
+      ["JNZ", str_word]
+    when 0xC3
+      ["JMP", str_word]
+    when 0xC4
+      ["CNZ", str_word]
+    when 0xC5
       ["PUSH", "B"]
-    when 0xc6
+    when 0xC6
       ["ADI", str_byte]
-    when 0xc7
+    when 0xC7
       ["RST", "0"]
-    when 0xc8
+    when 0xC8
       ["RZ"]
-    when 0xc9
+    when 0xC9
       ["RET"]
-    when 0xca
-      ["JZ", str_addr]
-    when 0xcb
+    when 0xCA
+      ["JZ", str_word]
+    when 0xCB
       ["NOP"]
-    when 0xcc
-      ["CZ", str_addr]
-    when 0xcd
-      ["CALL", str_addr]
-    when 0xce
+    when 0xCC
+      ["CZ", str_word]
+    when 0xCD
+      ["CALL", str_word]
+    when 0xCE
       ["ACI", str_byte]
-    when 0xcf
+    when 0xCF
       ["RST"]
-    when 0xd0
+    when 0xD0
       ["RNC"]
-    when 0xd1
+    when 0xD1
       ["POP", "D"]
-    when 0xd2
-      ["JNC", str_addr]
-    when 0xd3
+    when 0xD2
+      ["JNC", str_word]
+    when 0xD3
       ["OUT", str_byte]
-    when 0xd4
-      ["CNC", str_addr]
-    when 0xd5
+    when 0xD4
+      ["CNC", str_word]
+    when 0xD5
       ["PUSH", "D"]
-    when 0xd6
+    when 0xD6
       ["SUI", str_byte]
-    when 0xd7
+    when 0xD7
       ["RST", "2"]
-    when 0xd8
+    when 0xD8
       ["RC"]
-    when 0xd9
+    when 0xD9
       ["NOP"]
-    when 0xda
-      ["JC", str_addr]
-    when 0xdb
+    when 0xDA
+      ["JC", str_word]
+    when 0xDB
       ["IN", str_byte]
-    when 0xdc
-      ["CC", str_addr]
-    when 0xdd
+    when 0xDC
+      ["CC", str_word]
+    when 0xDD
       ["NOP"]
-    when 0xde
+    when 0xDE
       ["SBI", str_byte]
-    when 0xdf
+    when 0xDF
       ["RST", "3"]
-    when 0xe0
+    when 0xE0
       ["RPO"]
-    when 0xe1
+    when 0xE1
       ["POP", "H"]
-    when 0xe2
-      ["JPO", str_addr]
-    when 0xe3
+    when 0xE2
+      ["JPO", str_word]
+    when 0xE3
       ["XTHL"]
-    when 0xe4
-      ["CPO", str_addr]
-    when 0xe5
+    when 0xE4
+      ["CPO", str_word]
+    when 0xE5
       ["PUSH", "H"]
-    when 0xe6
+    when 0xE6
       ["ANI", str_byte]
-    when 0xe7
+    when 0xE7
       ["RST", "4"]
-    when 0xe8
+    when 0xE8
       ["RPE"]
-    when 0xe9
+    when 0xE9
       ["PCHL"]
-    when 0xea
-      ["JPE", str_addr]
-    when 0xeb
+    when 0xEA
+      ["JPE", str_word]
+    when 0xEB
       ["XCHG"]
-    when 0xec
-      ["CPE", str_addr]
-    when 0xed
+    when 0xEC
+      ["CPE", str_word]
+    when 0xED
       ["NOP"]
-    when 0xee
+    when 0xEE
       ["XRI", str_byte]
-    when 0xef
+    when 0xEF
       ["RST", "5"]
-    when 0xf0
+    when 0xF0
       ["RP"]
-    when 0xf1
+    when 0xF1
       ["POP", "PSW"]
-    when 0xf2
-      ["JP", str_addr]
-    when 0xf3
+    when 0xF2
+      ["JP", str_word]
+    when 0xF3
       ["DI"]
-    when 0xf4
-      ["CP", str_addr]
-    when 0xf5
+    when 0xF4
+      ["CP", str_word]
+    when 0xF5
       ["PUSH", "PSW"]
-    when 0xf6
+    when 0xF6
       ["ORI", str_byte]
-    when 0xf7
+    when 0xF7
       ["RST", "6"]
-    when 0xf8
+    when 0xF8
       ["RM"]
-    when 0xf9
+    when 0xF9
       ["SPHL"]
-    when 0xfa
-      ["JM", str_addr]
-    when 0xfb
+    when 0xFA
+      ["JM", str_word]
+    when 0xFB
       ["EI"]
-    when 0xfc
-      ["CM", str_addr]
-    when 0xfd
+    when 0xFC
+      ["CM", str_word]
+    when 0xFD
       ["NOP"]
-    when 0xfe
+    when 0xFE
       ["CPI", str_byte]
-    when 0xff
+    when 0xFF
       ["RST", "7"]
     else
-      Array(String).new
+      [] of String
     end
   end
 
   private def disassemble(x : Byte)
-    output = String.build do |out|
-      out << "%04X" % @addr
+    start = @addr
 
-      tmp = strs(x)
-      instr = tmp[0]
-      args = tmp[1..-1]
+    tmp = strs(x)
+    instr = tmp[0]
+    args = tmp[1..-1]
 
-      out << "\t"
-      out << instr
-      out << "\t"
-      out << args.join(", ")
-    end
+    offset = @addr - start
 
-    puts output
+    start_hex = "%04X" % start
+    instr_hex = "%02X" % @memory[start]
+    args_hex = @memory[start+1, offset].map { |x| "%02X" % x }.join
+
+    puts "#{start_hex} #{(instr_hex + args_hex).ljust(6, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(", ")}"
   end
 
   # Disassembles the next *n* instructions.
