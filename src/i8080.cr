@@ -70,8 +70,8 @@ module I8080
     return word
   end
 
-  # Returns the two bytes that form a given word. A the low byte will
-  # come first, followed by the high byte.
+  # Returns the two bytes that form a given word. The low byte will come
+  # first, followed by the high byte.
   def self.word_to_bytes(word : Word) : Tuple(Byte, Byte)
     lo = pointerof(word).as(Byte*)
     hi = lo + 1

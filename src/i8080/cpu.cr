@@ -613,16 +613,13 @@ class I8080::CPU
     set_flag(ZF) if x.zero?
 
     # Set the parity flag if the number of bits in x is even
-    n = 0
-
-    (0..7).each { |i| n += 1 if x.bit(i) == 1 }
-
+    n = (0..7).count { |i| x.bit(i) == 1 }
     set_flag(PF) if n.even?
   end
 
   private def set_aux_carry(a : Byte, b : Byte)
-    a_low = a << 4 >> 4
-    b_low = b << 4 >> 4
+    a_low = a & 0xF
+    b_low = b & 0xF
 
     if a_low + b_low > 15
       set_flag(AF)
@@ -637,9 +634,7 @@ class I8080::CPU
   end
 
   private def cmc
-    tmp = @f.value.bit(0)
-    reset_flag(CF)
-    @f.value |= tmp ^ 1
+    flag?(CF) ? reset_flag(CF) : set_flag(CF)
   end
 
   private def stc
@@ -673,7 +668,7 @@ class I8080::CPU
   end
 
   private def daa
-    a_low = @a.value << 4 >> 4
+    a_low = @a.value & 0xF
 
     if a_low > 9 || flag?(AF)
       @a.value &+= 6
