@@ -1,4 +1,4 @@
-name: crystal-i8080
+name: i8080
 version: 0.1.0
 
 authors:
@@ -7,3 +7,9 @@ authors:
 crystal: 0.31.1
 
 license: MIT
+
+repository:
+  https: https://github.com/Marzipanzerfaust/crystal-i8080.git
+
+documentation:
+  https: https://marzipanzerfaust.github.io/crystal-i8080
