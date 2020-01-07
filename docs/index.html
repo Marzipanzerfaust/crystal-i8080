@@ -99,7 +99,7 @@
 
 <p>In addition to the CPU itself, there is a very simple CP/M machine (<code><a href="I8080/CPMMachine.html">I8080::CPMMachine</a></code>) that emulates simple CP/M I/O calls. It isn't a fully functional emulator, but it should be enough to test simple CP/M programs, such as diagnostic tests.</p>
 
-<p>I have tested this using my own spec derived from examples in the 8080 Programmer's Manual; this is located at <code>spec/i8080/cpu_spec.cr</code>. I have also used Ian Bartholomew's 8080/8085 Exerciser, the files of which are courtesy of <a href="https://github.com/begoon/8080ex1" target="_blank">begoon/8080ex1</a>; these are located in <code>vendor/cpu_diagnostics</code>.</p>
+<p>I have tested this using my own spec derived from examples in the 8080 Programmer's Manual; this is located at <code>spec/cpu_spec.cr</code>. I have also used Ian Bartholomew's 8080/8085 Exerciser, the files of which are courtesy of <a href="https://github.com/begoon/8080ex1" target="_blank">begoon/8080ex1</a>; these are located in <code>vendor/cpu_diagnostics</code>.</p>
 
 <p>If you have Crystal installed, you can check the test results yourself by running <code>crystal spec</code> from the root directory; just be warned that the 8080/8085 Exerciser spec can take several minutes to complete.</p>
 
@@ -137,20 +137,19 @@ cpu.run</code></pre>
 dasm.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 dasm.run
 <span class="c"># Output:</span>
-<span class="c"># 0000    LXI    SP, $1234</span>
-<span class="c"># 0001    INR    A</span>
-<span class="c"># 0002    INR    B</span>
-<span class="c"># 0003    JMP    #5678</span>
+<span class="c"># 0000 3E56      MVI     A, $56</span>
+<span class="c"># 0002 CEBE      ACI     $BE</span>
+<span class="c"># 0004 CE42      ACI     $42</span>
 <span class="c"># ...</span></code></pre>
 
 <p>Alternatively, you can create a CPU in debug mode, which will use an embedded disassembler to print instructions to STDOUT as they're executed:</p>
 
 <pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
-cpu.step     <span class="c"># =&gt; 0000    LXI    SP, $1234</span>
-cpu.step     <span class="c"># =&gt; 0001    INR    A</span>
-cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0002    INR    B</span>
-             <span class="c"># =&gt; 0003    JMP    #5678</span></code></pre>
+cpu.step     <span class="c"># =&gt; 0000 315C02    LXI     SP, $025C</span>
+cpu.step     <span class="c"># =&gt; 0003 01FF03    LXI     B, $03FF</span>
+cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0006 C5        PUSH    B</span>
+             <span class="c"># =&gt; 0007 2A5A02    LHLD    $025A</span></code></pre>
 
 <p>There is also a very barebones CP/M implementation:</p>
 

@@ -7,7 +7,7 @@
 # dasm.run
 # # Output:
 # # 0000    LXI    SP, $1234
-# # 0001    MVI    A, $56
+# # 0003    MVI    A, $56
 # # ...
 # ```
 class I8080::Disassembler
