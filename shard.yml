@@ -1,5 +1,5 @@
 name: i8080
-version: 0.1.0
+version: 0.1.1
 
 authors:
   - Jeffrey Crochet <jeffrey.crochet@protonmail.com>
@@ -8,8 +8,8 @@ crystal: 0.31.1
 
 license: MIT
 
-repository:
-  https: https://github.com/Marzipanzerfaust/crystal-i8080.git
+repository: https://github.com/Marzipanzerfaust/crystal-i8080.git
 
-documentation:
-  https: https://marzipanzerfaust.github.io/crystal-i8080
+documentation: https://marzipanzerfaust.github.io/crystal-i8080
+
+description: Simple i8080 emulator written in Crystal

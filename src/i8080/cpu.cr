@@ -576,6 +576,8 @@ class I8080::CPU
 
   # Executes instructions until execution is halted.
   def run
+    return unless @stopped
+
     @stopped = false
 
     loop do
