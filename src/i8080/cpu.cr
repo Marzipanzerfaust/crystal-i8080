@@ -69,7 +69,7 @@ class I8080::CPU
   #
   # NOTE: This is 0 by default, indicating that interrupts will not be
   # serviced. Use `set_int_period` to adjust it.
-  getter int_period = 0
+  getter int_period = 0_f32
 
   @cycles : Int::Signed
 
