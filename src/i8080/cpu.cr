@@ -69,9 +69,9 @@ class I8080::CPU
   #
   # NOTE: This is 0 by default, indicating that interrupts will not be
   # serviced. Use `set_int_period` to adjust it.
-  getter int_period : Float = 0
+  getter int_period : Float64 = 0
 
-  @cycles : Int::Signed
+  @cycles : Float64
 
   # Tells whether or not the CPU has halted execution.
   getter stopped = true
