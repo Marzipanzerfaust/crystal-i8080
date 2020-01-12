@@ -95,10 +95,6 @@ class I8080::Disassembler
     "$%04X" % next_word
   end
 
-  private def str_addr : String
-    "($%04X)" % next_word
-  end
-
   private def strs(x : Byte) : Array(String)
     case x
     when 0x00
@@ -170,7 +166,7 @@ class I8080::Disassembler
     when 0x21
       ["LXI", "H", str_word]
     when 0x22
-      ["SHLD", str_addr]
+      ["SHLD", str_word]
     when 0x23
       ["INX", "H"]
     when 0x24
@@ -186,7 +182,7 @@ class I8080::Disassembler
     when 0x29
       ["DAD", "H"]
     when 0x2A
-      ["LHLD", str_addr]
+      ["LHLD", str_word]
     when 0x2B
       ["DCX", "H"]
     when 0x2C
@@ -202,7 +198,7 @@ class I8080::Disassembler
     when 0x31
       ["LXI", "SP", str_word]
     when 0x32
-      ["STA", str_addr]
+      ["STA", str_word]
     when 0x33
       ["INX", "SP"]
     when 0x34
@@ -218,7 +214,7 @@ class I8080::Disassembler
     when 0x39
       ["DAD", "SP"]
     when 0x3A
-      ["LDA", str_addr]
+      ["LDA", str_word]
     when 0x3B
       ["DCX", "SP"]
     when 0x3C
@@ -490,11 +486,11 @@ class I8080::Disassembler
     when 0xC1
       ["POP", "B"]
     when 0xC2
-      ["JNZ", str_addr]
+      ["JNZ", str_word]
     when 0xC3
-      ["JMP", str_addr]
+      ["JMP", str_word]
     when 0xC4
-      ["CNZ", str_addr]
+      ["CNZ", str_word]
     when 0xC5
       ["PUSH", "B"]
     when 0xC6
@@ -506,13 +502,13 @@ class I8080::Disassembler
     when 0xC9
       ["RET"]
     when 0xCA
-      ["JZ", str_addr]
+      ["JZ", str_word]
     when 0xCB
       ["NOP"]
     when 0xCC
-      ["CZ", str_addr]
+      ["CZ", str_word]
     when 0xCD
-      ["CALL", str_addr]
+      ["CALL", str_word]
     when 0xCE
       ["ACI", str_byte]
     when 0xCF
@@ -522,11 +518,11 @@ class I8080::Disassembler
     when 0xD1
       ["POP", "D"]
     when 0xD2
-      ["JNC", str_addr]
+      ["JNC", str_word]
     when 0xD3
       ["OUT", str_byte]
     when 0xD4
-      ["CNC", str_addr]
+      ["CNC", str_word]
     when 0xD5
       ["PUSH", "D"]
     when 0xD6
@@ -538,11 +534,11 @@ class I8080::Disassembler
     when 0xD9
       ["NOP"]
     when 0xDA
-      ["JC", str_addr]
+      ["JC", str_word]
     when 0xDB
       ["IN", str_byte]
     when 0xDC
-      ["CC", str_addr]
+      ["CC", str_word]
     when 0xDD
       ["NOP"]
     when 0xDE
@@ -554,11 +550,11 @@ class I8080::Disassembler
     when 0xE1
       ["POP", "H"]
     when 0xE2
-      ["JPO", str_addr]
+      ["JPO", str_word]
     when 0xE3
       ["XTHL"]
     when 0xE4
-      ["CPO", str_addr]
+      ["CPO", str_word]
     when 0xE5
       ["PUSH", "H"]
     when 0xE6
@@ -570,7 +566,7 @@ class I8080::Disassembler
     when 0xE9
       ["PCHL"]
     when 0xEA
-      ["JPE", str_addr]
+      ["JPE", str_word]
     when 0xEB
       ["XCHG"]
     when 0xEC
@@ -586,11 +582,11 @@ class I8080::Disassembler
     when 0xF1
       ["POP", "PSW"]
     when 0xF2
-      ["JP", str_addr]
+      ["JP", str_word]
     when 0xF3
       ["DI"]
     when 0xF4
-      ["CP", str_addr]
+      ["CP", str_word]
     when 0xF5
       ["PUSH", "PSW"]
     when 0xF6
@@ -602,11 +598,11 @@ class I8080::Disassembler
     when 0xF9
       ["SPHL"]
     when 0xFA
-      ["JM", str_addr]
+      ["JM", str_word]
     when 0xFB
       ["EI"]
     when 0xFC
-      ["CM", str_addr]
+      ["CM", str_word]
     when 0xFD
       ["NOP"]
     when 0xFE
