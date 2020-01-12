@@ -1,7 +1,7 @@
 require "./i8080/*"
 
 module I8080
-  VERSION = "0.1.3"
+  VERSION = "0.1.4"
 
   # For the Intel 8080, bytes are unsigned 8-bit integers.
   alias Byte = UInt8

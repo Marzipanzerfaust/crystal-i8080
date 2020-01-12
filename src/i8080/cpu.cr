@@ -132,8 +132,6 @@ class I8080::CPU
 
     @pc = Pair.new(@origin)
 
-    @cycles = @int_period
-
     @dasm = Disassembler.new(self) if @debug
   end
 
@@ -146,6 +144,8 @@ class I8080::CPU
 
     @sp.w = 0
 
+    @cycles = @int_period
+
     @int_enabled = false
     @stopped = true
     @jumped = false
@@ -157,6 +157,7 @@ class I8080::CPU
   # synchronizing the CPU with external devices.
   def set_int_period(fps : Number)
     @int_period = CLOCK_RATE / fps
+    @cycles = @int_period
   end
 
   # Loads the contents of *filename* into the CPU's memory, starting at
