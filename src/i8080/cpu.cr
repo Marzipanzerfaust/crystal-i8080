@@ -20,6 +20,10 @@
 # This is intended to be used in applications that require an embedded
 # Intel 8080 core.
 class I8080::CPU
+  # The i8080's clock rate is 2MHz: this is internally for determining
+  # the interrupt period
+  CLOCK_RATE = 2_000_000
+
   # The AF register pair; also known as the *PSW* (Program Status Word).
   getter af = Pair.new(0)
   # The BC register pair.
@@ -62,7 +66,10 @@ class I8080::CPU
   property int_request = 0_u8
 
   # Number of CPU cycles to occur before interrupts should be serviced
-  property int_period = 0
+  #
+  # NOTE: This is 0 by default, indicating that interrupts will not be
+  # serviced. Use `set_int_period` to adjust it.
+  getter int_period = 0
 
   @cycles : Int::Signed
 
@@ -144,6 +151,12 @@ class I8080::CPU
     @jumped = false
 
     @dasm.try &.reset
+  end
+
+  # Sets the interrupt period to `CLOCK_RATE / fps`; necessary for
+  # synchronizing the CPU with external devices.
+  def set_int_period(fps : Number)
+    @int_period = CLOCK_RATE / fps
   end
 
   # Loads the contents of *filename* into the CPU's memory, starting at
@@ -256,7 +269,7 @@ class I8080::CPU
   end
 
   private def next_byte : Byte
-    @pc.w &+= 1
+    @pc.w += 1
     return @memory[@pc.w]
   end
 
@@ -272,47 +285,112 @@ class I8080::CPU
       # executed
       @dasm.try &.step
 
-      exec(read_byte(@pc.w))
+      op(read_byte(@pc.w))
 
       if @jumped
         @jumped = false
         @dasm.try &.addr = @pc.w
       else
-        @pc.w &+= 1
+        @pc.w += 1
       end
+    end
+  end
+
+  # Executes instructions until a HLT is encountered or until the
+  # interrupt period expires. Once the interrupt period expires, it will
+  # execute `int_callback` before exiting.
+  def exec
+    @stopped = false
+
+    until @stopped
+      step
 
       # If the interrupt period has expired...
       if @cycles <= 0
         # Execute the periodic callback
-        int_period_callback
+        int_callback
 
-        # Check for interrupts if `int_enabled` has been set
-        if @int_enabled
-          @int_enabled = false
-
-          exec(@int_request)
-
-          # If a jump occurred while processing the interrupt, we need to
-          # reset the `jumped` flag to prevent a false positive while
-          # processing the next instruction
-          @jumped = false
-        end
+        # # Check for interrupts if `int_enabled` has been set
+        # if @int_enabled
+        #   @int_enabled = false
+        #
+        #   op(@int_request)
+        #
+        #   # If a jump occurred while processing the interrupt, we need to
+        #   # reset the `jumped` flag to prevent a false positive while
+        #   # processing the next instruction
+        #   @jumped = false
+        # end
 
         # Reset the cycle counter
         @cycles += @int_period
+
+        break
       end
+    end
+  end
+
+  # Executes instructions until a HLT is encountered or until there are
+  # no instructions left in the loaded file. Intended for testing, as it
+  # does not handle interrupts.
+  def run
+    @stopped = false
+
+    until @stopped
+      step
+      break if @pc.w == 0 || @pc.w == @file_size
     end
   end
 
   # What the CPU should do after the interrupt period expires.
   #
   # NOTE: This is a no-op; it is implemented by user machines to handle
-  # periodic tasks, such as refreshing the display.
-  def int_period_callback
+  # periodic tasks, such as refreshing the display. It can be left blank
+  # if you are handling I/O externally.
+  def int_callback
   end
 
-  private def exec(opcode : Byte)
-    case opcode
+  # Sets the flag represented by *f*.
+  def set_flag(f : Byte)
+    @f.value |= f
+  end
+
+  # Resets the the flag represented by *f*.
+  def reset_flag(f : Byte)
+    @f.value &= ~f
+  end
+
+  # Is the flag *f* set?
+  def flag?(f : Byte) : Bool
+    @f.value.bits_set?(f)
+  end
+
+  private def set_szp(x : Byte)
+    reset_flag(SF|ZF|PF)
+
+    set_flag(SF) if x.bit(7) == 1
+    set_flag(ZF) if x.zero?
+
+    # Set the parity flag if the number of bits in x is even
+    n = (0..7).count { |i| x.bit(i) == 1 }
+    set_flag(PF) if n.even?
+  end
+
+  private def set_aux_carry(a : Byte, b : Byte)
+    a_low = a & 0xF
+    b_low = b & 0xF
+
+    if a_low + b_low > 15
+      set_flag(AF)
+    else
+      reset_flag(AF)
+    end
+  end
+
+  # Instructions
+
+  private def op(code : Byte)
+    case code
     when 0x00 then nop
     when 0x01 then lxi(@bc, next_word)
     when 0x02 then stax(@bc)
@@ -571,66 +649,8 @@ class I8080::CPU
     when 0xFF then rst(7)
     end
 
-    @cycles -= OP_CYCLES[opcode]
+    @cycles -= OP_CYCLES[code]
   end
-
-  # Executes instructions until execution is halted.
-  def run
-    return unless @stopped
-
-    @stopped = false
-
-    loop do
-      step
-      break if @stopped || @pc.w == 0 || @pc.w == @file_size
-    end
-  end
-
-  # Halts execution.
-  #
-  # Call `run` to resume.
-  def stop
-    @stopped = true
-  end
-
-  # Sets the flag represented by *f*.
-  def set_flag(f : Byte)
-    @f.value |= f
-  end
-
-  # Resets the the flag represented by *f*.
-  def reset_flag(f : Byte)
-    @f.value &= ~f
-  end
-
-  # Is the flag *f* set?
-  def flag?(f : Byte) : Bool
-    @f.value.bits_set?(f)
-  end
-
-  private def set_szp(x : Byte)
-    reset_flag(SF|ZF|PF)
-
-    set_flag(SF) if x.bit(7) == 1
-    set_flag(ZF) if x.zero?
-
-    # Set the parity flag if the number of bits in x is even
-    n = (0..7).count { |i| x.bit(i) == 1 }
-    set_flag(PF) if n.even?
-  end
-
-  private def set_aux_carry(a : Byte, b : Byte)
-    a_low = a & 0xF
-    b_low = b & 0xF
-
-    if a_low + b_low > 15
-      set_flag(AF)
-    else
-      reset_flag(AF)
-    end
-  end
-
-  # Instructions
 
   private def nop
   end
@@ -1015,7 +1035,7 @@ class I8080::CPU
   end
 
   private def call(addr : Word)
-    _push(@pc.w &+ 1)
+    _push(@pc.w + 1)
     jmp(addr)
   end
 
@@ -1137,6 +1157,6 @@ class I8080::CPU
   end
 
   private def hlt
-    stop
+    @stopped = true
   end
 end
