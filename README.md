@@ -43,9 +43,9 @@ dasm = I8080::Disassembler.new
 dasm.load_file("path/to/rom")
 dasm.run
 # Output:
-# 0000 3E56      MVI     A, $56
-# 0002 CEBE      ACI     $BE
-# 0004 CE42      ACI     $42
+# 0000: 3E 56       MVI    A,$56
+# 0002: CE BE       ACI    $BE
+# 0004: CE 42       ACI    $42
 # ...
 ```
 
@@ -54,10 +54,10 @@ Alternatively, you can create a CPU in debug mode, which will use an embedded di
 ```crystal
 cpu = I8080::CPU.new(debug: true)
 cpu.load_file("path/to/rom")
-cpu.step     # => 0000 315C02    LXI     SP, $025C
-cpu.step     # => 0003 01FF03    LXI     B, $03FF
-cpu.step(2)  # => 0006 C5        PUSH    B
-             # => 0007 2A5A02    LHLD    $025A
+cpu.step     # => 0000: 31 5C 02    LXI     SP,$025C
+cpu.step     # => 0003: 01 FF 03    LXI     B,$03FF
+cpu.step(2)  # => 0006: C5          PUSH    B
+             # => 0007: 2A 5A 02    LHLD    ($025A)
 ```
 
 There is also a very barebones CP/M implementation:

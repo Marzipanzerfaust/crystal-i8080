@@ -6,8 +6,8 @@
 # dasm.load_file("path/to/rom")
 # dasm.run
 # # Output:
-# # 0000    LXI    SP, $1234
-# # 0003    MVI    A, $56
+# # 0000: 31 34 12    LXI    SP,$1234
+# # 0003: 3E 56       MVI    A,$56
 # # ...
 # ```
 class I8080::Disassembler
@@ -79,7 +79,7 @@ class I8080::Disassembler
   end
 
   private def next_byte : Byte
-    @addr &+= 1
+    @addr += 1
     return @memory[@addr]
   end
 
@@ -93,6 +93,10 @@ class I8080::Disassembler
 
   private def str_word : String
     "$%04X" % next_word
+  end
+
+  private def str_addr : String
+    "($%04X)" % next_word
   end
 
   private def strs(x : Byte) : Array(String)
@@ -166,7 +170,7 @@ class I8080::Disassembler
     when 0x21
       ["LXI", "H", str_word]
     when 0x22
-      ["SHLD", str_word]
+      ["SHLD", str_addr]
     when 0x23
       ["INX", "H"]
     when 0x24
@@ -182,7 +186,7 @@ class I8080::Disassembler
     when 0x29
       ["DAD", "H"]
     when 0x2A
-      ["LHLD", str_word]
+      ["LHLD", str_addr]
     when 0x2B
       ["DCX", "H"]
     when 0x2C
@@ -198,7 +202,7 @@ class I8080::Disassembler
     when 0x31
       ["LXI", "SP", str_word]
     when 0x32
-      ["STA", str_word]
+      ["STA", str_addr]
     when 0x33
       ["INX", "SP"]
     when 0x34
@@ -214,7 +218,7 @@ class I8080::Disassembler
     when 0x39
       ["DAD", "SP"]
     when 0x3A
-      ["LDA", str_word]
+      ["LDA", str_addr]
     when 0x3B
       ["DCX", "SP"]
     when 0x3C
@@ -486,11 +490,11 @@ class I8080::Disassembler
     when 0xC1
       ["POP", "B"]
     when 0xC2
-      ["JNZ", str_word]
+      ["JNZ", str_addr]
     when 0xC3
-      ["JMP", str_word]
+      ["JMP", str_addr]
     when 0xC4
-      ["CNZ", str_word]
+      ["CNZ", str_addr]
     when 0xC5
       ["PUSH", "B"]
     when 0xC6
@@ -502,13 +506,13 @@ class I8080::Disassembler
     when 0xC9
       ["RET"]
     when 0xCA
-      ["JZ", str_word]
+      ["JZ", str_addr]
     when 0xCB
       ["NOP"]
     when 0xCC
-      ["CZ", str_word]
+      ["CZ", str_addr]
     when 0xCD
-      ["CALL", str_word]
+      ["CALL", str_addr]
     when 0xCE
       ["ACI", str_byte]
     when 0xCF
@@ -518,11 +522,11 @@ class I8080::Disassembler
     when 0xD1
       ["POP", "D"]
     when 0xD2
-      ["JNC", str_word]
+      ["JNC", str_addr]
     when 0xD3
       ["OUT", str_byte]
     when 0xD4
-      ["CNC", str_word]
+      ["CNC", str_addr]
     when 0xD5
       ["PUSH", "D"]
     when 0xD6
@@ -534,11 +538,11 @@ class I8080::Disassembler
     when 0xD9
       ["NOP"]
     when 0xDA
-      ["JC", str_word]
+      ["JC", str_addr]
     when 0xDB
       ["IN", str_byte]
     when 0xDC
-      ["CC", str_word]
+      ["CC", str_addr]
     when 0xDD
       ["NOP"]
     when 0xDE
@@ -550,11 +554,11 @@ class I8080::Disassembler
     when 0xE1
       ["POP", "H"]
     when 0xE2
-      ["JPO", str_word]
+      ["JPO", str_addr]
     when 0xE3
       ["XTHL"]
     when 0xE4
-      ["CPO", str_word]
+      ["CPO", str_addr]
     when 0xE5
       ["PUSH", "H"]
     when 0xE6
@@ -566,7 +570,7 @@ class I8080::Disassembler
     when 0xE9
       ["PCHL"]
     when 0xEA
-      ["JPE", str_word]
+      ["JPE", str_addr]
     when 0xEB
       ["XCHG"]
     when 0xEC
@@ -582,11 +586,11 @@ class I8080::Disassembler
     when 0xF1
       ["POP", "PSW"]
     when 0xF2
-      ["JP", str_word]
+      ["JP", str_addr]
     when 0xF3
       ["DI"]
     when 0xF4
-      ["CP", str_word]
+      ["CP", str_addr]
     when 0xF5
       ["PUSH", "PSW"]
     when 0xF6
@@ -598,11 +602,11 @@ class I8080::Disassembler
     when 0xF9
       ["SPHL"]
     when 0xFA
-      ["JM", str_word]
+      ["JM", str_addr]
     when 0xFB
       ["EI"]
     when 0xFC
-      ["CM", str_word]
+      ["CM", str_addr]
     when 0xFD
       ["NOP"]
     when 0xFE
@@ -625,16 +629,16 @@ class I8080::Disassembler
 
     start_hex = "%04X" % start
     instr_hex = "%02X" % @memory[start]
-    args_hex = @memory[start+1, offset].map { |x| "%02X" % x }.join
+    args_hex = @memory[start+1, offset].map { |x| "%02X" % x }.join(' ')
 
-    puts "#{start_hex} #{(instr_hex + args_hex).ljust(6, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(", ")}"
+    puts "#{start_hex}: #{instr_hex} #{args_hex.ljust(5, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(',')}"
   end
 
   # Disassembles the next *n* instructions.
   def step(n = 1)
     n.times do
       disassemble(@memory[@addr])
-      @addr &+= 1
+      @addr += 1
     end
   end
 

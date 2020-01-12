@@ -122,8 +122,8 @@ executed:</p>
 
 <pre><code>cpu <span class="o">=</span> <span class="t">Intel8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
-cpu.step  <span class="c"># =&gt; 0000    LXI    SP, $1234</span>
-cpu.step  <span class="c"># =&gt; 0003    MVI    A, $56</span></code></pre>
+cpu.step  <span class="c"># =&gt; 0000: 31 34 12    LXI    SP,$1234</span>
+cpu.step  <span class="c"># =&gt; 0003: 3E 56       MVI    A,$56</span></code></pre>
 
 <p>This is intended to be used in applications that require an embedded
 Intel 8080 core.</p>
@@ -165,7 +165,7 @@ Intel 8080 core.</p>
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L22" target="_blank">
+      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L22" target="_blank">
         i8080/cpu.cr
       </a>
     
@@ -173,6 +173,30 @@ Intel 8080 core.</p>
   
 
 
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="CLOCK_RATE">
+        <strong>CLOCK_RATE</strong> = <code><span class="n">2000000</span></code>
+      </dt>
+      
+      <dd class="entry-const-doc">
+        <p>The i8080's clock rate is 2MHz: this is internally for determining
+the interrupt period</p>
+      </dd>
+      
+    
+  </dl>
 
 
 
@@ -280,6 +304,13 @@ Intel 8080 core.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#exec-instance-method" class="signature"><strong>#exec</strong></a>
+        
+          <div class="summary"><p>Executes instructions until a HLT is encountered or until the interrupt period expires.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#f:::Pointer(Byte)-instance-method" class="signature"><strong>#f</strong> : ::Pointer(Byte)</a>
         
           <div class="summary"><p>Low byte pointer for AF; represents the F register; also known as the <em>flag register</em>.</p></div>
@@ -315,6 +346,13 @@ Intel 8080 core.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#int_callback-instance-method" class="signature"><strong>#int_callback</strong></a>
+        
+          <div class="summary"><p>What the CPU should do after the interrupt period expires.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#int_enabled:Bool-instance-method" class="signature"><strong>#int_enabled</strong> : Bool</a>
         
           <div class="summary"><p>Tells whether or not the CPU is accepting interrupts; controlled by the EI and DI instructions.</p></div>
@@ -322,23 +360,9 @@ Intel 8080 core.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#int_period:Int32-instance-method" class="signature"><strong>#int_period</strong> : Int32</a>
+        <a href="#int_period:Float64-instance-method" class="signature"><strong>#int_period</strong> : Float64</a>
         
           <div class="summary"><p>Number of CPU cycles to occur before interrupts should be serviced</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#int_period=(int_period)-instance-method" class="signature"><strong>#int_period=</strong>(int_period)</a>
-        
-          <div class="summary"><p>Number of CPU cycles to occur before interrupts should be serviced</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#int_period_callback-instance-method" class="signature"><strong>#int_period_callback</strong></a>
-        
-          <div class="summary"><p>What the CPU should do after the interrupt period expires.</p></div>
         
       </li>
     
@@ -478,7 +502,7 @@ Intel 8080 core.</p>
       <li class="entry-summary">
         <a href="#run-instance-method" class="signature"><strong>#run</strong></a>
         
-          <div class="summary"><p>Executes instructions until execution is halted.</p></div>
+          <div class="summary"><p>Executes instructions until a HLT is encountered or until there are no instructions left in the loaded file.</p></div>
         
       </li>
     
@@ -486,6 +510,13 @@ Intel 8080 core.</p>
         <a href="#set_flag(f:Byte)-instance-method" class="signature"><strong>#set_flag</strong>(f : Byte)</a>
         
           <div class="summary"><p>Sets the flag represented by <em>f</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#set_int_period(fps:Number)-instance-method" class="signature"><strong>#set_int_period</strong>(fps : Number)</a>
+        
+          <div class="summary"><p>Sets the interrupt period to <code><a href="../I8080/CPU.html#CLOCK_RATE">CLOCK_RATE</a> / fps</code>; necessary for synchronizing the CPU with external devices.</p></div>
         
       </li>
     
@@ -507,13 +538,6 @@ Intel 8080 core.</p>
         <a href="#step(n=1)-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>)</a>
         
           <div class="summary"><p>Executes <em>n</em> instructions and increments the program counter accordingly.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#stop-instance-method" class="signature"><strong>#stop</strong></a>
-        
-          <div class="summary"><p>Halts execution.</p></div>
         
       </li>
     
@@ -610,7 +634,7 @@ specified address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L120" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L127" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -646,7 +670,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L44" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -667,7 +691,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -688,7 +712,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L45" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L49" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -709,7 +733,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -730,7 +754,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -751,7 +775,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L49" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -773,7 +797,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L122" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -794,7 +818,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -815,7 +839,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L111" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L118" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -836,7 +860,30 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="exec-instance-method">
+      <div class="signature">
+        
+        def <strong>exec</strong>
+
+        <a class="method-permalink" href="#exec-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Executes instructions until a HLT is encountered or until the
+interrupt period expires. Once the interrupt period expires, it will
+execute <code><a href="../I8080/CPU.html#int_callback-instance-method">#int_callback</a></code> before exiting.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -858,7 +905,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -879,7 +926,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L81" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -900,7 +947,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L605" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -921,7 +968,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L53" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L57" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -942,7 +989,32 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="int_callback-instance-method">
+      <div class="signature">
+        
+        def <strong>int_callback</strong>
+
+        <a class="method-permalink" href="#int_callback-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>What the CPU should do after the interrupt period expires.</p>
+
+<p><span class="flag purple">NOTE</span>  This is a no-op; it is implemented by user machines to handle
+periodic tasks, such as refreshing the display. It can be left blank
+if you are handling I/O externally.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L351" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -964,73 +1036,31 @@ the EI and DI instructions.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="int_period:Int32-instance-method">
+    <div class="entry-detail" id="int_period:Float64-instance-method">
       <div class="signature">
         
-        def <strong>int_period</strong> : Int32
+        def <strong>int_period</strong> : Float64
 
-        <a class="method-permalink" href="#int_period:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#int_period:Float64-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Number of CPU cycles to occur before interrupts should be serviced</p>
+
+<p><span class="flag purple">NOTE</span>  This is 0 by default, indicating that interrupts will not be
+serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number)-instance-method">#set_int_period</a></code> to adjust it.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L65" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="int_period=(int_period)-instance-method">
-      <div class="signature">
-        
-        def <strong>int_period=</strong>(int_period)
-
-        <a class="method-permalink" href="#int_period=(int_period)-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Number of CPU cycles to occur before interrupts should be serviced</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L65" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="int_period_callback-instance-method">
-      <div class="signature">
-        
-        def <strong>int_period_callback</strong>
-
-        <a class="method-permalink" href="#int_period_callback-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>What the CPU should do after the interrupt period expires.</p>
-
-<p><span class="flag purple">NOTE</span>  This is a no-op; it is implemented by user machines to handle
-periodic tasks, such as refreshing the display.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L72" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1051,7 +1081,7 @@ periodic tasks, such as refreshing the display.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1072,7 +1102,7 @@ periodic tasks, such as refreshing the display.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1097,7 +1127,7 @@ methods.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1118,7 +1148,7 @@ methods.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1143,7 +1173,7 @@ file name and the number of bytes in the file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L154" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L168" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1167,7 +1197,7 @@ file name and the number of bytes in the file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L78" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L85" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1204,7 +1234,7 @@ cpu.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L108" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1241,7 +1271,7 @@ cpu.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L108" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1263,7 +1293,7 @@ about to be executed by the CPU.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1284,7 +1314,7 @@ about to be executed by the CPU.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L218" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L232" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1306,7 +1336,7 @@ pointer by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L225" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L239" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1328,7 +1358,7 @@ pointer.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L203" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L217" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1350,7 +1380,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L210" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L224" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1371,7 +1401,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L173" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L187" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1394,7 +1424,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L232" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L246" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1415,7 +1445,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L178" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L192" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1437,7 +1467,7 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L135" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L140" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1458,7 +1488,7 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L600" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L360" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1482,7 +1512,7 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L254" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1497,13 +1527,15 @@ the embedded disassembler if debug mode is active.</p>
       
         <div class="doc">
           
-          <p>Executes instructions until execution is halted.</p>
+          <p>Executes instructions until a HLT is encountered or until there are
+no instructions left in the loaded file. Intended for testing, as it
+does not handle interrupts.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L578" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L337" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1524,7 +1556,29 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L595" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L355" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="set_int_period(fps:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>set_int_period</strong>(fps : Number)
+
+        <a class="method-permalink" href="#set_int_period(fps:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets the interrupt period to <code><a href="../I8080/CPU.html#CLOCK_RATE">CLOCK_RATE</a> / fps</code>; necessary for
+synchronizing the CPU with external devices.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L158" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1547,7 +1601,7 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L246" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L260" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1568,7 +1622,7 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1590,30 +1644,7 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L269" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="stop-instance-method">
-      <div class="signature">
-        
-        def <strong>stop</strong>
-
-        <a class="method-permalink" href="#stop-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>Halts execution.</p>
-
-<p>Call <code><a href="../I8080/CPU.html#run-instance-method">#run</a></code> to resume.</p>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L590" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L283" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1634,7 +1665,7 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L77" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1655,7 +1686,7 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L183" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L197" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1677,7 +1708,7 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L189" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L203" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1700,7 +1731,7 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L239" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L253" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1721,7 +1752,7 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/8c24883aaeab47fbd316ddff711f7aaf220ac9d3/src/i8080/cpu.cr#L194" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L208" target="_blank">View source</a>]
         
       </div>
     </div>

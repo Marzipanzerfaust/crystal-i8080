@@ -137,19 +137,19 @@ cpu.run</code></pre>
 dasm.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 dasm.run
 <span class="c"># Output:</span>
-<span class="c"># 0000 3E56      MVI     A, $56</span>
-<span class="c"># 0002 CEBE      ACI     $BE</span>
-<span class="c"># 0004 CE42      ACI     $42</span>
+<span class="c"># 0000: 3E 56       MVI    A,$56</span>
+<span class="c"># 0002: CE BE       ACI    $BE</span>
+<span class="c"># 0004: CE 42       ACI    $42</span>
 <span class="c"># ...</span></code></pre>
 
 <p>Alternatively, you can create a CPU in debug mode, which will use an embedded disassembler to print instructions to STDOUT as they're executed:</p>
 
 <pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
-cpu.step     <span class="c"># =&gt; 0000 315C02    LXI     SP, $025C</span>
-cpu.step     <span class="c"># =&gt; 0003 01FF03    LXI     B, $03FF</span>
-cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0006 C5        PUSH    B</span>
-             <span class="c"># =&gt; 0007 2A5A02    LHLD    $025A</span></code></pre>
+cpu.step     <span class="c"># =&gt; 0000: 31 5C 02    LXI     SP,$025C</span>
+cpu.step     <span class="c"># =&gt; 0003: 01 FF 03    LXI     B,$03FF</span>
+cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0006: C5          PUSH    B</span>
+             <span class="c"># =&gt; 0007: 2A 5A 02    LHLD    ($025A)</span></code></pre>
 
 <p>There is also a very barebones CP/M implementation:</p>
 

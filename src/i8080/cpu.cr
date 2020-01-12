@@ -13,8 +13,8 @@
 # ```
 # cpu = Intel8080::CPU.new(debug: true)
 # cpu.load_file("path/to/rom")
-# cpu.step  # => 0000    LXI    SP, $1234
-# cpu.step  # => 0003    MVI    A, $56
+# cpu.step  # => 0000: 31 34 12    LXI    SP,$1234
+# cpu.step  # => 0003: 3E 56       MVI    A,$56
 # ```
 #
 # This is intended to be used in applications that require an embedded
