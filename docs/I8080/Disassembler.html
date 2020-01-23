@@ -143,7 +143,7 @@ dasm.run
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L13" target="_blank">
+      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L13" target="_blank">
         i8080/disassembler.cr
       </a>
     
@@ -223,9 +223,9 @@ dasm.run
       </li>
     
       <li class="entry-summary">
-        <a href="#load_file(filename:String)-instance-method" class="signature"><strong>#load_file</strong>(filename : String)</a>
+        <a href="#load_file(filename:String):Word-instance-method" class="signature"><strong>#load_file</strong>(filename : String) : Word</a>
         
-          <div class="summary"><p>Loads the contents of <em>filename</em> into the disassembler's memory.</p></div>
+          <div class="summary"><p>Loads the contents of <em>filename</em> into the disassembler's memory, then returns the file's size in bytes.</p></div>
         
       </li>
     
@@ -251,21 +251,21 @@ dasm.run
       </li>
     
       <li class="entry-summary">
-        <a href="#reset-instance-method" class="signature"><strong>#reset</strong></a>
+        <a href="#reset:Nil-instance-method" class="signature"><strong>#reset</strong> : Nil</a>
         
           <div class="summary"><p>Resets the address pointer to the origin.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#run-instance-method" class="signature"><strong>#run</strong></a>
+        <a href="#run:Nil-instance-method" class="signature"><strong>#run</strong> : Nil</a>
         
           <div class="summary"><p>Disassembles instructions until the end of the file.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#step(n=1)-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>)</a>
+        <a href="#step(n=1):Nil-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>) : Nil</a>
         
           <div class="summary"><p>Disassembles the next <em>n</em> instructions.</p></div>
         
@@ -328,7 +328,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -350,7 +350,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -385,7 +385,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -406,7 +406,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -429,7 +429,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -450,28 +450,29 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="load_file(filename:String)-instance-method">
+    <div class="entry-detail" id="load_file(filename:String):Word-instance-method">
       <div class="signature">
         
-        def <strong>load_file</strong>(filename : String)
+        def <strong>load_file</strong>(filename : String) : <a href="../I8080/Word.html">Word</a>
 
-        <a class="method-permalink" href="#load_file(filename:String)-instance-method">#</a>
+        <a class="method-permalink" href="#load_file(filename:String):Word-instance-method">#</a>
       </div>
       
         <div class="doc">
           
-          <p>Loads the contents of <em>filename</em> into the disassembler's memory.</p>
+          <p>Loads the contents of <em>filename</em> into the disassembler's memory,
+then returns the file's size in bytes.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L71" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -493,7 +494,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -519,7 +520,7 @@ keyword argument:</p>
 dasm.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
 
 <p>Or, you can change the origin on an existing disassembler and call
-the <code><a href="../I8080/Disassembler.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+the <code><a href="../I8080/Disassembler.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
 accordingly:</p>
 
 <pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>
@@ -530,7 +531,7 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -556,7 +557,7 @@ keyword argument:</p>
 dasm.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
 
 <p>Or, you can change the origin on an existing disassembler and call
-the <code><a href="../I8080/Disassembler.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+the <code><a href="../I8080/Disassembler.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
 accordingly:</p>
 
 <pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>
@@ -567,17 +568,17 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset-instance-method">
+    <div class="entry-detail" id="reset:Nil-instance-method">
       <div class="signature">
         
-        def <strong>reset</strong>
+        def <strong>reset</strong> : Nil
 
-        <a class="method-permalink" href="#reset-instance-method">#</a>
+        <a class="method-permalink" href="#reset:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -588,17 +589,17 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L65" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L65" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="run-instance-method">
+    <div class="entry-detail" id="run:Nil-instance-method">
       <div class="signature">
         
-        def <strong>run</strong>
+        def <strong>run</strong> : Nil
 
-        <a class="method-permalink" href="#run-instance-method">#</a>
+        <a class="method-permalink" href="#run:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -609,17 +610,17 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L646" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L645" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="step(n=1)-instance-method">
+    <div class="entry-detail" id="step(n=1):Nil-instance-method">
       <div class="signature">
         
-        def <strong>step</strong>(n = <span class="n">1</span>)
+        def <strong>step</strong>(n = <span class="n">1</span>) : Nil
 
-        <a class="method-permalink" href="#step(n=1)-instance-method">#</a>
+        <a class="method-permalink" href="#step(n=1):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -630,7 +631,7 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/disassembler.cr#L638" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/disassembler.cr#L637" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -112,7 +112,7 @@
 
 <p>Load a ROM and execute it:</p>
 
-<pre><code>cpu <span class="o">=</span> <span class="t">Intel8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 cpu.run</code></pre>
 
@@ -120,7 +120,7 @@ cpu.run</code></pre>
 embedded <code><a href="../I8080/Disassembler.html">Disassembler</a></code> that will print instructions as they are
 executed:</p>
 
-<pre><code>cpu <span class="o">=</span> <span class="t">Intel8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
+<pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 cpu.step  <span class="c"># =&gt; 0000: 31 34 12    LXI    SP,$1234</span>
 cpu.step  <span class="c"># =&gt; 0003: 3E 56       MVI    A,$56</span></code></pre>
@@ -165,7 +165,7 @@ Intel 8080 core.</p>
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L22" target="_blank">
+      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L22" target="_blank">
         i8080/cpu.cr
       </a>
     
@@ -304,7 +304,7 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#exec-instance-method" class="signature"><strong>#exec</strong></a>
+        <a href="#exec:Nil-instance-method" class="signature"><strong>#exec</strong> : Nil</a>
         
           <div class="summary"><p>Executes instructions until a HLT is encountered or until the interrupt period expires.</p></div>
         
@@ -346,7 +346,7 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#int_callback-instance-method" class="signature"><strong>#int_callback</strong></a>
+        <a href="#int_callback:Nil-instance-method" class="signature"><strong>#int_callback</strong> : Nil</a>
         
           <div class="summary"><p>What the CPU should do after the interrupt period expires.</p></div>
         
@@ -395,9 +395,9 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#load_file(filename:String)-instance-method" class="signature"><strong>#load_file</strong>(filename : String)</a>
+        <a href="#load_file(filename:String):Word-instance-method" class="signature"><strong>#load_file</strong>(filename : String) : Word</a>
         
-          <div class="summary"><p>Loads the contents of <em>filename</em> into the CPU's memory, starting at the origin.</p></div>
+          <div class="summary"><p>Loads the contents of <em>filename</em> into the CPU's memory, starting at the origin, then returns the loaded file's size in bytes.</p></div>
         
       </li>
     
@@ -444,14 +444,14 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#push_byte(byte:Byte)-instance-method" class="signature"><strong>#push_byte</strong>(byte : Byte)</a>
+        <a href="#push_byte(byte:Byte):Nil-instance-method" class="signature"><strong>#push_byte</strong>(byte : Byte) : Nil</a>
         
           <div class="summary"><p>Pushes the given byte onto the stack, decrementing the stack pointer.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#push_word(word:Word)-instance-method" class="signature"><strong>#push_word</strong>(word : Word)</a>
+        <a href="#push_word(word:Word):Nil-instance-method" class="signature"><strong>#push_word</strong>(word : Word) : Nil</a>
         
           <div class="summary"><p>Pushes the given word onto the stack, decrementing the stack pointer by two.</p></div>
         
@@ -479,49 +479,49 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#reset-instance-method" class="signature"><strong>#reset</strong></a>
+        <a href="#reset:Nil-instance-method" class="signature"><strong>#reset</strong> : Nil</a>
         
           <div class="summary"><p>Resets all registers and flags to their initial values, along with the embedded disassembler if debug mode is active.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#reset_flag(f:Byte)-instance-method" class="signature"><strong>#reset_flag</strong>(f : Byte)</a>
+        <a href="#reset_flag(f:Byte):Nil-instance-method" class="signature"><strong>#reset_flag</strong>(f : Byte) : Nil</a>
         
           <div class="summary"><p>Resets the the flag represented by <em>f</em>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#reset_io(port:Byte,bit:Byte)-instance-method" class="signature"><strong>#reset_io</strong>(port : Byte, bit : Byte)</a>
+        <a href="#reset_io(port:Byte,bit:Byte):Nil-instance-method" class="signature"><strong>#reset_io</strong>(port : Byte, bit : Byte) : Nil</a>
         
           <div class="summary"><p>Resets the bit corresponding to <em>bit</em> in the I/O port given by <em>port</em>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#run-instance-method" class="signature"><strong>#run</strong></a>
+        <a href="#run:Nil-instance-method" class="signature"><strong>#run</strong> : Nil</a>
         
           <div class="summary"><p>Executes instructions until a HLT is encountered or until there are no instructions left in the loaded file.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#set_flag(f:Byte)-instance-method" class="signature"><strong>#set_flag</strong>(f : Byte)</a>
+        <a href="#set_flag(f:Byte):Nil-instance-method" class="signature"><strong>#set_flag</strong>(f : Byte) : Nil</a>
         
           <div class="summary"><p>Sets the flag represented by <em>f</em>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#set_int_period(fps:Number)-instance-method" class="signature"><strong>#set_int_period</strong>(fps : Number)</a>
+        <a href="#set_int_period(fps:Number):Nil-instance-method" class="signature"><strong>#set_int_period</strong>(fps : Number) : Nil</a>
         
           <div class="summary"><p>Sets the interrupt period to <code><a href="../I8080/CPU.html#CLOCK_RATE">CLOCK_RATE</a> / fps</code>; necessary for synchronizing the CPU with external devices.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#set_io(port:Byte,bit:Byte)-instance-method" class="signature"><strong>#set_io</strong>(port : Byte, bit : Byte)</a>
+        <a href="#set_io(port:Byte,bit:Byte):Nil-instance-method" class="signature"><strong>#set_io</strong>(port : Byte, bit : Byte) : Nil</a>
         
           <div class="summary"><p>Sets the bit corresponding to <em>bit</em> in the I/O port given by <em>port</em>.</p></div>
         
@@ -535,7 +535,7 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#step(n=1)-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>)</a>
+        <a href="#step(n=1):Nil-instance-method" class="signature"><strong>#step</strong>(n = <span class="n">1</span>) : Nil</a>
         
           <div class="summary"><p>Executes <em>n</em> instructions and increments the program counter accordingly.</p></div>
         
@@ -549,28 +549,28 @@ the interrupt period</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#write_byte(addr:Word,value:Byte)-instance-method" class="signature"><strong>#write_byte</strong>(addr : Word, value : Byte)</a>
+        <a href="#write_byte(addr:Word,value:Byte):Nil-instance-method" class="signature"><strong>#write_byte</strong>(addr : Word, value : Byte) : Nil</a>
         
           <div class="summary"><p>Writes the given byte to the given address.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#write_bytes(addr:Word,bytes:Bytes)-instance-method" class="signature"><strong>#write_bytes</strong>(addr : Word, bytes : Bytes)</a>
+        <a href="#write_bytes(addr:Word,bytes:Bytes):Nil-instance-method" class="signature"><strong>#write_bytes</strong>(addr : Word, bytes : Bytes) : Nil</a>
         
           <div class="summary"><p>Writes <em>bytes</em> to memory sequentially starting at <em>addr</em>; useful for strings.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#write_io(port:Byte,x:Byte)-instance-method" class="signature"><strong>#write_io</strong>(port : Byte, x : Byte)</a>
+        <a href="#write_io(port:Byte,x:Byte):Nil-instance-method" class="signature"><strong>#write_io</strong>(port : Byte, x : Byte) : Nil</a>
         
           <div class="summary"><p>Writes the given byte <em>x</em> to the I/O port given by <em>port</em>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#write_word(addr:Word,value:Word)-instance-method" class="signature"><strong>#write_word</strong>(addr : Word, value : Word)</a>
+        <a href="#write_word(addr:Word,value:Word):Nil-instance-method" class="signature"><strong>#write_word</strong>(addr : Word, value : Word) : Nil</a>
         
           <div class="summary"><p>Writes the given word to the given address.</p></div>
         
@@ -634,7 +634,7 @@ specified address.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L127" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L127" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -670,7 +670,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L44" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L44" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -691,7 +691,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -712,7 +712,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L49" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L49" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -733,7 +733,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -754,7 +754,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -775,7 +775,7 @@ the <em>accumulator</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L53" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -797,7 +797,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L122" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L122" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,7 +818,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -839,7 +839,7 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L118" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L118" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -860,30 +860,30 @@ in debug mode.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L55" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="exec-instance-method">
+    <div class="entry-detail" id="exec:Nil-instance-method">
       <div class="signature">
         
-        def <strong>exec</strong>
+        def <strong>exec</strong> : Nil
 
-        <a class="method-permalink" href="#exec-instance-method">#</a>
+        <a class="method-permalink" href="#exec:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Executes instructions until a HLT is encountered or until the
 interrupt period expires. Once the interrupt period expires, it will
-execute <code><a href="../I8080/CPU.html#int_callback-instance-method">#int_callback</a></code> before exiting.</p>
+execute <code><a href="../I8080/CPU.html#int_callback:Nil-instance-method">#int_callback</a></code> before exiting.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L302" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -905,7 +905,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L47" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -926,7 +926,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -947,7 +947,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L365" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L364" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -968,7 +968,7 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L57" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L57" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -989,17 +989,17 @@ the <em>flag register</em>.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L34" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="int_callback-instance-method">
+    <div class="entry-detail" id="int_callback:Nil-instance-method">
       <div class="signature">
         
-        def <strong>int_callback</strong>
+        def <strong>int_callback</strong> : Nil
 
-        <a class="method-permalink" href="#int_callback-instance-method">#</a>
+        <a class="method-permalink" href="#int_callback:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1014,7 +1014,7 @@ if you are handling I/O externally.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L351" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L350" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1036,7 +1036,7 @@ the EI and DI instructions.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L63" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1054,13 +1054,13 @@ the EI and DI instructions.</p>
           <p>Number of CPU cycles to occur before interrupts should be serviced</p>
 
 <p><span class="flag purple">NOTE</span>  This is 0 by default, indicating that interrupts will not be
-serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number)-instance-method">#set_int_period</a></code> to adjust it.</p>
+serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number):Nil-instance-method">#set_int_period</a></code> to adjust it.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L72" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L72" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1081,7 +1081,7 @@ serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number)-instan
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1102,7 +1102,7 @@ serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number)-instan
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1120,14 +1120,14 @@ serviced. Use <code><a href="../I8080/CPU.html#set_int_period(fps:Number)-instan
           <p>The I/O space for the CPU (size 0xFF).</p>
 
 <p>Each byte represents the state of an I/O port. To interact with I/O
-ports, see the <code><a href="../I8080/CPU.html#read_io(port:Byte):Byte-instance-method">#read_io</a></code>, <code><a href="../I8080/CPU.html#write_io(port:Byte,x:Byte)-instance-method">#write_io</a></code>, <code><a href="../I8080/CPU.html#set_io(port:Byte,bit:Byte)-instance-method">#set_io</a></code>, and <code><a href="../I8080/CPU.html#reset_io(port:Byte,bit:Byte)-instance-method">#reset_io</a></code>
+ports, see the <code><a href="../I8080/CPU.html#read_io(port:Byte):Byte-instance-method">#read_io</a></code>, <code><a href="../I8080/CPU.html#write_io(port:Byte,x:Byte):Nil-instance-method">#write_io</a></code>, <code><a href="../I8080/CPU.html#set_io(port:Byte,bit:Byte):Nil-instance-method">#set_io</a></code>, and <code><a href="../I8080/CPU.html#reset_io(port:Byte,bit:Byte):Nil-instance-method">#reset_io</a></code>
 methods.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L95" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1148,32 +1148,29 @@ methods.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="load_file(filename:String)-instance-method">
+    <div class="entry-detail" id="load_file(filename:String):Word-instance-method">
       <div class="signature">
         
-        def <strong>load_file</strong>(filename : String)
+        def <strong>load_file</strong>(filename : String) : <a href="../I8080/Word.html">Word</a>
 
-        <a class="method-permalink" href="#load_file(filename:String)-instance-method">#</a>
+        <a class="method-permalink" href="#load_file(filename:String):Word-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Loads the contents of <em>filename</em> into the CPU's memory, starting at
-the origin.</p>
-
-<p>If debug mode is active, will print a message to STDOUT with the
-file name and the number of bytes in the file.</p>
+the origin, then returns the loaded file's size in bytes.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L168" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L165" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1191,13 +1188,13 @@ file name and the number of bytes in the file.</p>
           <p>The memory space for the CPU (size 0xFFFF).</p>
 
 <p>To interact with memory, see the <code><a href="../I8080/CPU.html#read_byte(addr:Word):Byte-instance-method">#read_byte</a></code>, <code><a href="../I8080/CPU.html#read_word(addr:Word):Word-instance-method">#read_word</a></code>,
-<code><a href="../I8080/CPU.html#write_byte(addr:Word,value:Byte)-instance-method">#write_byte</a></code>, <code><a href="../I8080/CPU.html#write_word(addr:Word,value:Word)-instance-method">#write_word</a></code>, and <code><a href="../I8080/CPU.html#write_bytes(addr:Word,bytes:Bytes)-instance-method">#write_bytes</a></code> methods.</p>
+<code><a href="../I8080/CPU.html#write_byte(addr:Word,value:Byte):Nil-instance-method">#write_byte</a></code>, <code><a href="../I8080/CPU.html#write_word(addr:Word,value:Word):Nil-instance-method">#write_word</a></code>, and <code><a href="../I8080/CPU.html#write_bytes(addr:Word,bytes:Bytes):Nil-instance-method">#write_bytes</a></code> methods.</p>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L85" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L85" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1223,7 +1220,7 @@ argument:</p>
 cpu.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
 
 <p>Or, you can change the origin on an existing CPU and call the
-<code><a href="../I8080/CPU.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+<code><a href="../I8080/CPU.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
 accordingly:</p>
 
 <pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
@@ -1234,7 +1231,7 @@ cpu.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1260,7 +1257,7 @@ argument:</p>
 cpu.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
 
 <p>Or, you can change the origin on an existing CPU and call the
-<code><a href="../I8080/CPU.html#reset-instance-method">#reset</a></code> method to make sure that the program counter is updated
+<code><a href="../I8080/CPU.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
 accordingly:</p>
 
 <pre><code>cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>
@@ -1271,7 +1268,7 @@ cpu.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L115" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1293,7 +1290,7 @@ about to be executed by the CPU.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1314,7 +1311,7 @@ about to be executed by the CPU.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L232" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L231" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1336,17 +1333,17 @@ pointer by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L239" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L238" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="push_byte(byte:Byte)-instance-method">
+    <div class="entry-detail" id="push_byte(byte:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>push_byte</strong>(byte : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>push_byte</strong>(byte : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#push_byte(byte:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#push_byte(byte:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1358,17 +1355,17 @@ pointer.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L217" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L216" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="push_word(word:Word)-instance-method">
+    <div class="entry-detail" id="push_word(word:Word):Nil-instance-method">
       <div class="signature">
         
-        def <strong>push_word</strong>(word : <a href="../I8080/Word.html">Word</a>)
+        def <strong>push_word</strong>(word : <a href="../I8080/Word.html">Word</a>) : Nil
 
-        <a class="method-permalink" href="#push_word(word:Word)-instance-method">#</a>
+        <a class="method-permalink" href="#push_word(word:Word):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1380,7 +1377,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L224" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L223" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1401,7 +1398,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L187" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L186" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1424,7 +1421,7 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L246" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L245" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1445,17 +1442,17 @@ by two.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L192" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L191" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset-instance-method">
+    <div class="entry-detail" id="reset:Nil-instance-method">
       <div class="signature">
         
-        def <strong>reset</strong>
+        def <strong>reset</strong> : Nil
 
-        <a class="method-permalink" href="#reset-instance-method">#</a>
+        <a class="method-permalink" href="#reset:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1467,17 +1464,17 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L140" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L140" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset_flag(f:Byte)-instance-method">
+    <div class="entry-detail" id="reset_flag(f:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>reset_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>reset_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#reset_flag(f:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#reset_flag(f:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1488,17 +1485,17 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L360" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L359" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="reset_io(port:Byte,bit:Byte)-instance-method">
+    <div class="entry-detail" id="reset_io(port:Byte,bit:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>reset_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>reset_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#reset_io(port:Byte,bit:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#reset_io(port:Byte,bit:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1512,17 +1509,17 @@ the embedded disassembler if debug mode is active.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="run-instance-method">
+    <div class="entry-detail" id="run:Nil-instance-method">
       <div class="signature">
         
-        def <strong>run</strong>
+        def <strong>run</strong> : Nil
 
-        <a class="method-permalink" href="#run-instance-method">#</a>
+        <a class="method-permalink" href="#run:Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1535,17 +1532,17 @@ does not handle interrupts.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L337" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L336" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="set_flag(f:Byte)-instance-method">
+    <div class="entry-detail" id="set_flag(f:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>set_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>set_flag</strong>(f : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#set_flag(f:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#set_flag(f:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1556,17 +1553,17 @@ does not handle interrupts.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L355" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L354" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="set_int_period(fps:Number)-instance-method">
+    <div class="entry-detail" id="set_int_period(fps:Number):Nil-instance-method">
       <div class="signature">
         
-        def <strong>set_int_period</strong>(fps : Number)
+        def <strong>set_int_period</strong>(fps : Number) : Nil
 
-        <a class="method-permalink" href="#set_int_period(fps:Number)-instance-method">#</a>
+        <a class="method-permalink" href="#set_int_period(fps:Number):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1578,17 +1575,17 @@ synchronizing the CPU with external devices.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L158" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L158" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="set_io(port:Byte,bit:Byte)-instance-method">
+    <div class="entry-detail" id="set_io(port:Byte,bit:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>set_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>set_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, bit : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#set_io(port:Byte,bit:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#set_io(port:Byte,bit:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1601,7 +1598,7 @@ synchronizing the CPU with external devices.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L260" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L259" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1622,17 +1619,17 @@ synchronizing the CPU with external devices.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="step(n=1)-instance-method">
+    <div class="entry-detail" id="step(n=1):Nil-instance-method">
       <div class="signature">
         
-        def <strong>step</strong>(n = <span class="n">1</span>)
+        def <strong>step</strong>(n = <span class="n">1</span>) : Nil
 
-        <a class="method-permalink" href="#step(n=1)-instance-method">#</a>
+        <a class="method-permalink" href="#step(n=1):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1644,7 +1641,7 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L283" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1665,17 +1662,17 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L77" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L77" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="write_byte(addr:Word,value:Byte)-instance-method">
+    <div class="entry-detail" id="write_byte(addr:Word,value:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>write_byte</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>write_byte</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#write_byte(addr:Word,value:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#write_byte(addr:Word,value:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1686,17 +1683,17 @@ accordingly.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L197" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L196" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="write_bytes(addr:Word,bytes:Bytes)-instance-method">
+    <div class="entry-detail" id="write_bytes(addr:Word,bytes:Bytes):Nil-instance-method">
       <div class="signature">
         
-        def <strong>write_bytes</strong>(addr : <a href="../I8080/Word.html">Word</a>, bytes : Bytes)
+        def <strong>write_bytes</strong>(addr : <a href="../I8080/Word.html">Word</a>, bytes : Bytes) : Nil
 
-        <a class="method-permalink" href="#write_bytes(addr:Word,bytes:Bytes)-instance-method">#</a>
+        <a class="method-permalink" href="#write_bytes(addr:Word,bytes:Bytes):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1708,17 +1705,17 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L203" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L202" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="write_io(port:Byte,x:Byte)-instance-method">
+    <div class="entry-detail" id="write_io(port:Byte,x:Byte):Nil-instance-method">
       <div class="signature">
         
-        def <strong>write_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, x : <a href="../I8080/Byte.html">Byte</a>)
+        def <strong>write_io</strong>(port : <a href="../I8080/Byte.html">Byte</a>, x : <a href="../I8080/Byte.html">Byte</a>) : Nil
 
-        <a class="method-permalink" href="#write_io(port:Byte,x:Byte)-instance-method">#</a>
+        <a class="method-permalink" href="#write_io(port:Byte,x:Byte):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1731,17 +1728,17 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L253" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L252" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="write_word(addr:Word,value:Word)-instance-method">
+    <div class="entry-detail" id="write_word(addr:Word,value:Word):Nil-instance-method">
       <div class="signature">
         
-        def <strong>write_word</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Word.html">Word</a>)
+        def <strong>write_word</strong>(addr : <a href="../I8080/Word.html">Word</a>, value : <a href="../I8080/Word.html">Word</a>) : Nil
 
-        <a class="method-permalink" href="#write_word(addr:Word,value:Word)-instance-method">#</a>
+        <a class="method-permalink" href="#write_word(addr:Word,value:Word):Nil-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1752,7 +1749,7 @@ strings.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/4da3d1799d2327188b173228eb54a4b5dc7ad7a0/src/i8080/cpu.cr#L208" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/be0ef45e7fd49a4e7e9325ca5ba1a1e74ecbbb65/src/i8080/cpu.cr#L207" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -2,7 +2,7 @@
 #
 # Load a ROM and execute it:
 # ```
-# cpu = Intel8080::CPU.new
+# cpu = I8080::CPU.new
 # cpu.load_file("path/to/rom")
 # cpu.run
 # ```
@@ -11,7 +11,7 @@
 # embedded `Disassembler` that will print instructions as they are
 # executed:
 # ```
-# cpu = Intel8080::CPU.new(debug: true)
+# cpu = I8080::CPU.new(debug: true)
 # cpu.load_file("path/to/rom")
 # cpu.step  # => 0000: 31 34 12    LXI    SP,$1234
 # cpu.step  # => 0003: 3E 56       MVI    A,$56
@@ -137,7 +137,7 @@ class I8080::CPU
 
   # Resets all registers and flags to their initial values, along with
   # the embedded disassembler if debug mode is active.
-  def reset
+  def reset : Nil
     @pc.w = @origin
 
     @af.w = @bc.w = @de.w = @hl.w = 0
@@ -155,32 +155,31 @@ class I8080::CPU
 
   # Sets the interrupt period to `CLOCK_RATE / fps`; necessary for
   # synchronizing the CPU with external devices.
-  def set_int_period(fps : Number)
+  def set_int_period(fps : Number) : Nil
     @int_period = CLOCK_RATE / fps
     @cycles = @int_period
   end
 
   # Loads the contents of *filename* into the CPU's memory, starting at
-  # the origin.
-  #
-  # If debug mode is active, will print a message to STDOUT with the
-  # file name and the number of bytes in the file.
-  def load_file(filename : String)
-    file = File.read(filename).chomp.bytes
+  # the origin, then returns the loaded file's size in bytes.
+  def load_file(filename : String) : Word
+    data = File.read(filename).chomp.to_slice
+    @file_size = data.size
 
-    if @debug
-      puts "Loaded \"#{File.basename(filename)}\", 0x%04X bytes" % file.size
-    end
+    # if @debug
+    #   puts "Loaded \"#{File.basename(filename)}\", 0x%04X bytes" % @file_size
+    # end
 
-    # If an origin offset was provided, we need to pad the begining of
-    # the file data with the appropriate number of NOP's so that the
-    # adjusted program counter will be correct
-    if @origin > 0
-      file = [0u8] * @origin + file
-    end
+    # # If an origin offset was provided, we need to pad the begining of
+    # # the file data with the appropriate number of NOP's so that the
+    # # adjusted program counter will be correct
+    # if @origin > 0
+    #   file = [0u8] * @origin + file
+    # end
 
-    @file_size = file.size
-    @memory.copy_from(file.to_unsafe, @file_size)
+    @memory.copy_from(data)
+
+    return @file_size
   end
 
   # Returns the byte at the given address.
@@ -194,18 +193,18 @@ class I8080::CPU
   end
 
   # Writes the given byte to the given address.
-  def write_byte(addr : Word, value : Byte)
+  def write_byte(addr : Word, value : Byte) : Nil
     @memory[addr] = value
   end
 
   # Writes *bytes* to memory sequentially starting at *addr*; useful for
   # strings.
-  def write_bytes(addr : Word, bytes : Bytes)
+  def write_bytes(addr : Word, bytes : Bytes) : Nil
     bytes.each.with_index { |b, i| write_byte(addr + i, b) }
   end
 
   # Writes the given word to the given address.
-  def write_word(addr : Word, value : Word)
+  def write_word(addr : Word, value : Word) : Nil
     lo, hi = I8080.word_to_bytes(value)
 
     write_byte(addr, lo)
@@ -214,14 +213,14 @@ class I8080::CPU
 
   # Pushes the given byte onto the stack, decrementing the stack
   # pointer.
-  def push_byte(byte : Byte)
+  def push_byte(byte : Byte) : Nil
     @sp.w &-= 1
     @memory[@sp.w] = byte
   end
 
   # Pushes the given word onto the stack, decrementing the stack pointer
   # by two.
-  def push_word(word : Word)
+  def push_word(word : Word) : Nil
     lo, hi = I8080.word_to_bytes(word)
 
     push_byte(hi)
@@ -250,14 +249,14 @@ class I8080::CPU
   # Writes the given byte *x* to the I/O port given by *port*.
   #
   # NOTE: Port numbers start at 1.
-  def write_io(port : Byte, x : Byte)
+  def write_io(port : Byte, x : Byte) : Nil
     @io[port-1] = x
   end
 
   # Sets the bit corresponding to *bit* in the I/O port given by *port*.
   #
   # NOTE: Port numbers start at 1.
-  def set_io(port : Byte, bit : Byte)
+  def set_io(port : Byte, bit : Byte) : Nil
     @io[port-1] |= 1 << bit
   end
 
@@ -265,7 +264,7 @@ class I8080::CPU
   # *port*.
   #
   # NOTE: Port numbers start at 1.
-  def reset_io(port : Byte, bit : Byte)
+  def reset_io(port : Byte, bit : Byte) : Nil
     @io[port-1] &= ~(1 << bit)
   end
 
@@ -280,7 +279,7 @@ class I8080::CPU
 
   # Executes *n* instructions and increments the program counter
   # accordingly.
-  def step(n = 1)
+  def step(n = 1) : Nil
     n.times do
       # If we're in debug mode, print the instruction that's about to be
       # executed
@@ -300,7 +299,7 @@ class I8080::CPU
   # Executes instructions until a HLT is encountered or until the
   # interrupt period expires. Once the interrupt period expires, it will
   # execute `int_callback` before exiting.
-  def exec
+  def exec : Nil
     @stopped = false
 
     until @stopped
@@ -334,7 +333,7 @@ class I8080::CPU
   # Executes instructions until a HLT is encountered or until there are
   # no instructions left in the loaded file. Intended for testing, as it
   # does not handle interrupts.
-  def run
+  def run : Nil
     @stopped = false
 
     until @stopped
@@ -348,16 +347,16 @@ class I8080::CPU
   # NOTE: This is a no-op; it is implemented by user machines to handle
   # periodic tasks, such as refreshing the display. It can be left blank
   # if you are handling I/O externally.
-  def int_callback
+  def int_callback : Nil
   end
 
   # Sets the flag represented by *f*.
-  def set_flag(f : Byte)
+  def set_flag(f : Byte) : Nil
     @f.value |= f
   end
 
   # Resets the the flag represented by *f*.
-  def reset_flag(f : Byte)
+  def reset_flag(f : Byte) : Nil
     @f.value &= ~f
   end
 

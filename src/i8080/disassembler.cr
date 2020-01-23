@@ -62,20 +62,23 @@ class I8080::Disassembler
   end
 
   # Resets the address pointer to the origin.
-  def reset
+  def reset : Nil
     @addr = @origin
   end
 
-  # Loads the contents of *filename* into the disassembler's memory.
-  def load_file(filename : String)
-    file = File.read(filename).chomp.bytes
+  # Loads the contents of *filename* into the disassembler's memory,
+  # then returns the file's size in bytes.
+  def load_file(filename : String) : Word
+    data = File.read(filename).chomp.to_slice
+    @file_size = data.size
 
-    if @origin > 0
-      file = [0u8] * @origin + file
-    end
+    # if @origin > 0
+    #   file = [0u8] * @origin + file
+    # end
 
-    @file_size = file.size
-    @memory.copy_from(file.to_unsafe, @file_size)
+    @memory.copy_from(data)
+
+    return @file_size
   end
 
   private def next_byte : Byte
@@ -631,7 +634,7 @@ class I8080::Disassembler
   end
 
   # Disassembles the next *n* instructions.
-  def step(n = 1)
+  def step(n = 1) : Nil
     n.times do
       disassemble(@memory[@addr])
       @addr += 1
@@ -639,7 +642,7 @@ class I8080::Disassembler
   end
 
   # Disassembles instructions until the end of the file.
-  def run
+  def run : Nil
     loop do
       step
       break if @addr == @file_size || @addr == 0
