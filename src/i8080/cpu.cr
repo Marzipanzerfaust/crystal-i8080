@@ -161,8 +161,8 @@ class I8080::CPU
   end
 
   # Loads the contents of *filename* into the CPU's memory, starting at
-  # the origin, then returns the loaded file's size in bytes.
-  def load_file(filename : String) : Word
+  # the origin, then returns the file's size in bytes.
+  def load_file(filename : String) : Int32
     data = File.read(filename).chomp.to_slice
     @file_size = data.size
 
