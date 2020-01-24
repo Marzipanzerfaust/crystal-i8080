@@ -71,7 +71,8 @@ class I8080::CPU
   # serviced. Use `set_int_period` to adjust it.
   getter int_period = 0_f64
 
-  @cycles = 0_f64
+  # Number of CPU cycles left before interrupt occurs.
+  getter cycles = 0_f64
 
   # Tells whether or not the CPU has halted execution.
   getter stopped = true
@@ -279,6 +280,10 @@ class I8080::CPU
 
   # Executes *n* instructions and increments the program counter
   # accordingly.
+  #
+  # NOTE: This doesn't handle interrupts, so it should only be called
+  # directly for testing purposes. If you need to handle interrupts, you
+  # should be calling `exec`.
   def step(n = 1) : Nil
     n.times do
       # If we're in debug mode, print the instruction that's about to be
@@ -310,17 +315,17 @@ class I8080::CPU
         # Execute the periodic callback
         int_callback
 
-        # # Check for interrupts if `int_enabled` has been set
-        # if @int_enabled
-        #   @int_enabled = false
-        #
-        #   op(@int_request)
-        #
-        #   # If a jump occurred while processing the interrupt, we need to
-        #   # reset the `jumped` flag to prevent a false positive while
-        #   # processing the next instruction
-        #   @jumped = false
-        # end
+        # Check for interrupts if `int_enabled` has been set
+        if @int_enabled
+          @int_enabled = false
+
+          op(@int_request)
+
+          # If a jump occurred while processing the interrupt, we need to
+          # reset the `jumped` flag to prevent a false positive while
+          # processing the next instruction
+          @jumped = false
+        end
 
         # Reset the cycle counter
         @cycles += @int_period
@@ -331,8 +336,11 @@ class I8080::CPU
   end
 
   # Executes instructions until a HLT is encountered or until there are
-  # no instructions left in the loaded file. Intended for testing, as it
-  # does not handle interrupts.
+  # no instructions left in the loaded file.
+  #
+  # NOTE: This doesn't handle interrupts, so it should only be called
+  # directly for testing purposes. If you need to handle interrupts, you
+  # should be calling `exec`.
   def run : Nil
     @stopped = false
 
