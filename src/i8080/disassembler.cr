@@ -68,7 +68,7 @@ class I8080::Disassembler
 
   # Loads the contents of *filename* into the disassembler's memory,
   # then returns the file's size in bytes.
-  def load_file(filename : String) : Word
+  def load_file(filename : String) : Int32
     data = File.read(filename).chomp.to_slice
     @file_size = data.size
 
@@ -630,7 +630,52 @@ class I8080::Disassembler
     instr_hex = "%02X" % @memory[start]
     args_hex = @memory[start+1, offset].map { |x| "%02X" % x }.join(' ')
 
-    puts "#{start_hex}: #{instr_hex} #{args_hex.ljust(5, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(',')}"
+    # puts "#{start_hex}: #{instr_hex} #{args_hex.ljust(5, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(',')}"
+
+    extra_cycles =
+      if cpu = @cpu
+        case x
+        when 0xC0, 0xC4
+          cpu.flag?(ZF) ? 0 : 6
+        when 0xC8, 0xCC
+          cpu.flag?(ZF) ? 6 : 0
+        when 0xD0, 0xD4
+          cpu.flag?(CF) ? 0 : 6
+        when 0xD8, 0xDC
+          cpu.flag?(CF) ? 6 : 0
+        when 0xE0, 0xE4
+          cpu.flag?(PF) ? 0 : 6
+        when 0xE8, 0xEC
+          cpu.flag?(PF) ? 6 : 0
+        when 0xF0, 0xF4
+          cpu.flag?(SF) ? 0 : 6
+        when 0xF8, 0xFC
+          cpu.flag?(SF) ? 6 : 0
+        else
+          0
+        end
+      else
+        0
+      end
+
+    output = String.build do |str|
+      str << start_hex
+      str << ": "
+      str << instr_hex << ' ' << args_hex.ljust(5, ' ')
+      str << "    "
+      str << instr.ljust(4, ' ')
+      str << "    "
+      str << args.join(',').ljust(8)
+
+      @cpu.try do |cpu|
+        str << "    ; cycles = "
+        str << cpu.cycles
+        str << " - "
+        str << OP_CYCLES[x] + extra_cycles
+      end
+    end
+
+    puts output
   end
 
   # Disassembles the next *n* instructions.
