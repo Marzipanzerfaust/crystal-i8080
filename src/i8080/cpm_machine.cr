@@ -33,7 +33,28 @@ class I8080::CPMMachine < I8080::CPU
 
   # :nodoc:
   def initialize(*args, **kwargs)
-    super(*args, **kwargs, origin: 0x0100_u16)
+    super(*args, **kwargs)
+    @pc.w = 0x0100_u16
+  end
+
+  # :nodoc:
+  def reset : Nil
+    super
+    @pc.w = 0x0100_u16
+  end
+
+  # :nodoc:
+  def load_file(filename : String) : Int32
+    data = File.read(filename).chomp.bytes
+    @file_size = data.size
+
+    # Pad the beginning of the file with 0x100 bytes so that the
+    # adjusted program counter is correct
+    data = [0_u8] * 0x100 + data
+
+    @memory.copy_from(data.to_unsafe, data.size)
+
+    return @file_size
   end
 
   private def call(addr : Word)

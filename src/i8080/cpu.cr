@@ -37,7 +37,7 @@ class I8080::CPU
   getter sp = Pair.new(0)
   # The *program counter*, which keeps track of which byte in the ROM is
   # about to be executed by the CPU.
-  getter pc : Pair
+  getter pc = Pair.new(0)
 
   # High byte pointer for AF; represents the A register; also known as
   # the *accumulator*.
@@ -95,26 +95,6 @@ class I8080::CPU
   # methods.
   getter io = Bytes.new(0x100)
 
-  # The address at which the CPU should begin execution in the loaded
-  # file.
-  #
-  # Defaults to 0 (address 0x0000). To change this to something else,
-  # you can create a new CPU and specify the origin as a keyword
-  # argument:
-  # ```
-  # cpu = I8080::CPU.new(origin: 0x0100_u16)
-  # cpu.origin  # => 0x0100_u16
-  # ```
-  # Or, you can change the origin on an existing CPU and call the
-  # `reset` method to make sure that the program counter is updated
-  # accordingly:
-  # ```
-  # cpu = I8080::CPU.new
-  # cpu.origin = 0x0100_u16
-  # cpu.reset
-  # ```
-  property origin : Word
-
   # Tells whether or not the CPU is in debug mode.
   getter debug : Bool
 
@@ -122,16 +102,12 @@ class I8080::CPU
   # in debug mode.
   getter dasm : Disassembler?
 
-  # If *debug* is given, the CPU will be created in debug mode. If
-  # *origin* is given, the CPU's program counter will start at the
-  # specified address.
-  def initialize(@debug = false, @origin = 0_u16)
+  # If *debug* is given, the CPU will be created in debug mode.
+  def initialize(@debug = false)
     @a, @f = @af.h, @af.l
     @b, @c = @bc.h, @bc.l
     @d, @e = @de.h, @de.l
     @h, @l = @hl.h, @hl.l
-
-    @pc = Pair.new(@origin)
 
     @dasm = Disassembler.new(self) if @debug
   end
@@ -139,10 +115,9 @@ class I8080::CPU
   # Resets all registers and flags to their initial values, along with
   # the embedded disassembler if debug mode is active.
   def reset : Nil
-    @pc.w = @origin
-
     @af.w = @bc.w = @de.w = @hl.w = 0
 
+    @pc.w = 0
     @sp.w = 0
 
     @cycles = @int_period
@@ -166,17 +141,6 @@ class I8080::CPU
   def load_file(filename : String) : Int32
     data = File.read(filename).chomp.to_slice
     @file_size = data.size
-
-    # if @debug
-    #   puts "Loaded \"#{File.basename(filename)}\", 0x%04X bytes" % @file_size
-    # end
-
-    # # If an origin offset was provided, we need to pad the begining of
-    # # the file data with the appropriate number of NOP's so that the
-    # # adjusted program counter will be correct
-    # if @origin > 0
-    #   file = [0u8] * @origin + file
-    # end
 
     @memory.copy_from(data)
 
@@ -288,13 +252,15 @@ class I8080::CPU
     n.times do
       # If we're in debug mode, print the instruction that's about to be
       # executed
-      @dasm.try &.step
+      @dasm.try do |dasm|
+        dasm.addr = @pc.w
+        dasm.step
+      end
 
       op(read_byte(@pc.w))
 
       if @jumped
         @jumped = false
-        @dasm.try &.addr = @pc.w
       else
         @pc.w += 1
       end

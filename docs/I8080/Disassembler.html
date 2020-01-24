@@ -143,7 +143,7 @@ dasm.run
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L13" target="_blank">
+      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L13" target="_blank">
         i8080/disassembler.cr
       </a>
     
@@ -172,9 +172,7 @@ dasm.run
       </li>
     
       <li class="entry-summary">
-        <a href="#new(origin=0_u16)-class-method" class="signature"><strong>.new</strong>(origin = <span class="n">0_u16</span>)</a>
-        
-          <div class="summary"><p>If <em>origin</em> is given, it will be used as the address at which to start disassembly in the loaded file.</p></div>
+        <a href="#new-class-method" class="signature"><strong>.new</strong></a>
         
       </li>
     
@@ -223,7 +221,7 @@ dasm.run
       </li>
     
       <li class="entry-summary">
-        <a href="#load_file(filename:String):Word-instance-method" class="signature"><strong>#load_file</strong>(filename : String) : Word</a>
+        <a href="#load_file(filename:String):Int32-instance-method" class="signature"><strong>#load_file</strong>(filename : String) : Int32</a>
         
           <div class="summary"><p>Loads the contents of <em>filename</em> into the disassembler's memory, then returns the file's size in bytes.</p></div>
         
@@ -233,20 +231,6 @@ dasm.run
         <a href="#memory:Bytes-instance-method" class="signature"><strong>#memory</strong> : Bytes</a>
         
           <div class="summary"><p>The disassembler's memory space, used to hold the contents of the loaded file.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#origin:Word-instance-method" class="signature"><strong>#origin</strong> : Word</a>
-        
-          <div class="summary"><p>The address at which the disassembler should begin execution in the loaded file.</p></div>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#origin=(origin:Word)-instance-method" class="signature"><strong>#origin=</strong>(origin : Word)</a>
-        
-          <div class="summary"><p>The address at which the disassembler should begin execution in the loaded file.</p></div>
         
       </li>
     
@@ -328,29 +312,23 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="new(origin=0_u16)-class-method">
+    <div class="entry-detail" id="new-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(origin = <span class="n">0_u16</span>)
+        def self.<strong>new</strong>
 
-        <a class="method-permalink" href="#new(origin=0_u16)-class-method">#</a>
+        <a class="method-permalink" href="#new-class-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>If <em>origin</em> is given, it will be used as the address at which to
-start disassembly in the loaded file.</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -385,7 +363,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -406,7 +384,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -429,7 +407,7 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L47" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -450,17 +428,17 @@ start disassembly in the loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="load_file(filename:String):Word-instance-method">
+    <div class="entry-detail" id="load_file(filename:String):Int32-instance-method">
       <div class="signature">
         
-        def <strong>load_file</strong>(filename : String) : <a href="../I8080/Word.html">Word</a>
+        def <strong>load_file</strong>(filename : String) : Int32
 
-        <a class="method-permalink" href="#load_file(filename:String):Word-instance-method">#</a>
+        <a class="method-permalink" href="#load_file(filename:String):Int32-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -472,7 +450,7 @@ then returns the file's size in bytes.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L71" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L48" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -494,81 +472,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="origin:Word-instance-method">
-      <div class="signature">
-        
-        def <strong>origin</strong> : <a href="../I8080/Word.html">Word</a>
-
-        <a class="method-permalink" href="#origin:Word-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The address at which the disassembler should begin execution in the
-loaded file.</p>
-
-<p>Defaults to 0 (address 0x0000). To change this to something else,
-you can create a new disassembler and specify the origin as a
-keyword argument:</p>
-
-<pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>(origin: <span class="n">0x0100_u16</span>)
-dasm.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
-
-<p>Or, you can change the origin on an existing disassembler and call
-the <code><a href="../I8080/Disassembler.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
-accordingly:</p>
-
-<pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>
-dasm.origin <span class="o">=</span> <span class="n">0x0100_u16</span>
-dasm.reset</code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="origin=(origin:Word)-instance-method">
-      <div class="signature">
-        
-        def <strong>origin=</strong>(origin : <a href="../I8080/Word.html">Word</a>)
-
-        <a class="method-permalink" href="#origin=(origin:Word)-instance-method">#</a>
-      </div>
-      
-        <div class="doc">
-          
-          <p>The address at which the disassembler should begin execution in the
-loaded file.</p>
-
-<p>Defaults to 0 (address 0x0000). To change this to something else,
-you can create a new disassembler and specify the origin as a
-keyword argument:</p>
-
-<pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>(origin: <span class="n">0x0100_u16</span>)
-dasm.origin  <span class="c"># =&gt; 0x0100_u16</span></code></pre>
-
-<p>Or, you can change the origin on an existing disassembler and call
-the <code><a href="../I8080/Disassembler.html#reset:Nil-instance-method">#reset</a></code> method to make sure that the program counter is updated
-accordingly:</p>
-
-<pre><code>dasm <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">Disassembler</span>.<span class="k">new</span>
-dasm.origin <span class="o">=</span> <span class="n">0x0100_u16</span>
-dasm.reset</code></pre>
-        </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -589,7 +493,7 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L65" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -610,7 +514,7 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L645" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L661" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -631,7 +535,7 @@ dasm.reset</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/aff5684d0e96d50b570a6a037c4b1d578ce63bce/src/i8080/disassembler.cr#L637" target="_blank">View source</a>]
+          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L653" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -14,26 +14,6 @@ class I8080::Disassembler
   # The address containing the instruction about to be disassembled.
   property addr : Word
 
-  # The address at which the disassembler should begin execution in the
-  # loaded file.
-  #
-  # Defaults to 0 (address 0x0000). To change this to something else,
-  # you can create a new disassembler and specify the origin as a
-  # keyword argument:
-  # ```
-  # dasm = I8080::Disassembler.new(origin: 0x0100_u16)
-  # dasm.origin  # => 0x0100_u16
-  # ```
-  # Or, you can change the origin on an existing disassembler and call
-  # the `#reset` method to make sure that the program counter is updated
-  # accordingly:
-  # ```
-  # dasm = I8080::Disassembler.new
-  # dasm.origin = 0x0100_u16
-  # dasm.reset
-  # ```
-  property origin : Word
-
   # The size of the loaded file in bytes.
   getter file_size = 0
 
@@ -46,24 +26,21 @@ class I8080::Disassembler
   # If an attached `CPU` exists, that `CPU`'s memory space will be used.
   getter cpu : CPU?
 
-  # If *origin* is given, it will be used as the address at which to
-  # start disassembly in the loaded file.
-  def initialize(@origin = 0_u16)
+  def initialize
     @memory = Bytes.new(0x10000)
-    @addr = @origin
+    @addr = 0
   end
 
   # This constructor can be used to attach the disassembler to an
   # existing `CPU`'s memory space.
   def initialize(@cpu : CPU)
     @memory = @cpu.not_nil!.memory
-    @origin = @cpu.not_nil!.origin
-    @addr = @origin
+    @addr = @cpu.not_nil!.pc.w
   end
 
   # Resets the address pointer to the origin.
   def reset : Nil
-    @addr = @origin
+    @addr = 0
   end
 
   # Loads the contents of *filename* into the disassembler's memory,
@@ -71,10 +48,6 @@ class I8080::Disassembler
   def load_file(filename : String) : Int32
     data = File.read(filename).chomp.to_slice
     @file_size = data.size
-
-    # if @origin > 0
-    #   file = [0u8] * @origin + file
-    # end
 
     @memory.copy_from(data)
 
@@ -629,8 +602,6 @@ class I8080::Disassembler
     start_hex = "%04X" % start
     instr_hex = "%02X" % @memory[start]
     args_hex = @memory[start+1, offset].map { |x| "%02X" % x }.join(' ')
-
-    # puts "#{start_hex}: #{instr_hex} #{args_hex.ljust(5, ' ')}    #{instr.ljust(4, ' ')}    #{args.join(',')}"
 
     extra_cycles =
       if cpu = @cpu

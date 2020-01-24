@@ -15,4 +15,3 @@ describe CPMMachine do
   # cpu.load_file "#{__DIR__}/../vendor/cpu_diagnostics/8080EX1.COM"
   # cpu.run
 end
-
