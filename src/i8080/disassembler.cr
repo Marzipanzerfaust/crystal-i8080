@@ -590,7 +590,8 @@ class I8080::Disassembler
     end
   end
 
-  private def disassemble(x : Byte)
+  # Disassembles the given opcode *x* and prints.
+  def disassemble(x : Byte)
     start = @addr
 
     tmp = strs(x)

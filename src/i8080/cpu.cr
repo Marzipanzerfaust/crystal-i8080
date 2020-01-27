@@ -20,10 +20,6 @@
 # This is intended to be used in applications that require an embedded
 # Intel 8080 core.
 class I8080::CPU
-  # The i8080's clock rate is 2MHz: this is internally for determining
-  # the interrupt period
-  CLOCK_RATE = 2_000_000
-
   # The AF register pair; also known as the *PSW* (Program Status Word).
   getter af = Pair.new(0)
   # The BC register pair.
@@ -60,16 +56,15 @@ class I8080::CPU
 
   # Tells whether or not the CPU is accepting interrupts; controlled by
   # the EI and DI instructions.
-  getter int_enabled = false
+  getter int_enable = false
 
   # Interrupt opcode to be set by peripheral devices.
-  property int_request = 0_u8
+  property int_request : Byte?
 
-  # Number of CPU cycles to occur before interrupts should be serviced
-  #
-  # NOTE: This is 0 by default, indicating that interrupts will not be
-  # serviced. Use `set_int_period` to adjust it.
-  getter int_period = 0_f64
+  @refresh_period = 0_f64
+  @int_period = 0_f64
+
+  @cyclic_tasks = {} of Proc(Nil) => Float64
 
   # Number of CPU cycles left before interrupt occurs.
   getter cycles = 0_f64
@@ -109,6 +104,8 @@ class I8080::CPU
     @d, @e = @de.h, @de.l
     @h, @l = @hl.h, @hl.l
 
+    @int_request = nil
+
     @dasm = Disassembler.new(self) if @debug
   end
 
@@ -122,18 +119,22 @@ class I8080::CPU
 
     @cycles = @int_period
 
-    @int_enabled = false
+    @int_request = nil
+
+    @int_enable = false
     @stopped = true
     @jumped = false
 
     @dasm.try &.reset
   end
 
-  # Sets the interrupt period to `CLOCK_RATE / fps`; necessary for
+  # Sets the refresh period to `CLOCK_RATE` / *freq*; necessary for
   # synchronizing the CPU with external devices.
-  def set_int_period(fps : Number) : Nil
-    @int_period = CLOCK_RATE / fps
-    @cycles = @int_period
+  #
+  # For example, if you want to tie the refresh period of the CPU to the
+  # refresh rate of a 60Hz display, you would do `set_refresh_period(60)`.
+  def set_refresh_period(freq : Number) : Nil
+    @refresh_period = CLOCK_RATE / freq
   end
 
   # Loads the contents of *filename* into the CPU's memory, starting at
@@ -244,20 +245,31 @@ class I8080::CPU
 
   # Executes *n* instructions and increments the program counter
   # accordingly.
-  #
-  # NOTE: This doesn't handle interrupts, so it should only be called
-  # directly for testing purposes. If you need to handle interrupts, you
-  # should be calling `exec`.
   def step(n = 1) : Nil
     n.times do
-      # If we're in debug mode, print the instruction that's about to be
-      # executed
-      @dasm.try do |dasm|
-        dasm.addr = @pc.w
-        dasm.step
-      end
+      if @int_enable
+        # `int_enable` has been set: check for interrupts
+        @int_enable = false
 
-      op(read_byte(@pc.w))
+        @int_request.try do |code|
+          @dasm.try &.disassemble(code)
+          op(code)
+          code = nil
+        end
+      else
+        # Otherwise, execute the next opcode as normal
+
+        # If we're in debug mode, print the instruction that's about to be
+        # executed
+        @dasm.try do |dasm|
+          dasm.addr = @pc.w
+          dasm.step
+        end
+
+        op(read_byte(@pc.w))
+
+        next if @int_enable
+      end
 
       if @jumped
         @jumped = false
@@ -267,31 +279,34 @@ class I8080::CPU
     end
   end
 
-  # Executes instructions until a HLT is encountered or until the
-  # interrupt period expires. Once the interrupt period expires, it will
-  # execute `int_callback` before exiting.
-  def exec : Nil
+  # Executes instructions until the program stops or until the program
+  # counter falls outside the scope of the program for some reason.
+  def run : Nil
     @stopped = false
 
-    until @stopped
+    loop do
       step
 
       # If the interrupt period has expired...
       if @cycles <= 0
-        # Execute the periodic callback
-        int_callback
+        check_tasks
 
-        # Check for interrupts if `int_enabled` has been set
-        if @int_enabled
-          @int_enabled = false
+        # Reset the cycle counter
+        @cycles += @int_period
 
-          op(@int_request)
+        break if @stopped || @pc.w >= @file_size || @pc.w == 0
+      end
+    end
+  end
 
-          # If a jump occurred while processing the interrupt, we need to
-          # reset the `jumped` flag to prevent a false positive while
-          # processing the next instruction
-          @jumped = false
-        end
+  # Executes instructions until the next interrupt.
+  def exec : Nil
+    loop do
+      step
+
+      # If the interrupt period has expired...
+      if @cycles <= 0
+        check_tasks
 
         # Reset the cycle counter
         @cycles += @int_period
@@ -301,27 +316,33 @@ class I8080::CPU
     end
   end
 
-  # Executes instructions until a HLT is encountered or until there are
-  # no instructions left in the loaded file.
-  #
-  # NOTE: This doesn't handle interrupts, so it should only be called
-  # directly for testing purposes. If you need to handle interrupts, you
-  # should be calling `exec`.
-  def run : Nil
-    @stopped = false
+  # Registers a task that occurs every *period* cycles. Used primarily
+  # for handling cyclic tasks like refreshing the display.
+  def register_task(period : Number, &task : Proc(Nil)) : Nil
+    @cyclic_tasks[task] = {period, period}
+    update_int_period(period)
+  end
 
-    until @stopped
-      step
-      break if @pc.w == 0 || @pc.w == @file_size
+  private def update_int_period(n : Float64) : Nil
+    if @int_period > 0
+      @int_period = @int_period.gcd(n)
+    else
+      @int_period = n
     end
   end
 
-  # What the CPU should do after the interrupt period expires.
-  #
-  # NOTE: This is a no-op; it is implemented by user machines to handle
-  # periodic tasks, such as refreshing the display. It can be left blank
-  # if you are handling I/O externally.
-  def int_callback : Nil
+  # Check each registered task, decrement timers, and execute the tasks
+  # whose timers have expired. After a task is executed, its timer will
+  # be reset.
+  private def check_tasks : Nil
+    @cyclic_tasks.each do |task, (period, timer)|
+      timer -= @int_period
+
+      if timer <= 0
+        task.call
+        timer += period
+      end
+    end
   end
 
   # Sets the flag represented by *f*.
@@ -1111,15 +1132,15 @@ class I8080::CPU
   end
 
   private def rst(exp : Byte)
-    call(I8080.bytes_to_word(exp << 3, 0))
+    call(I8080.bytes_to_word(exp << 3, 0_u8))
   end
 
   private def ei
-    @int_enabled = true
+    @int_enable = true
   end
 
   private def di
-    @int_enabled = false
+    @int_enable = false
   end
 
   private def in(byte : Byte)

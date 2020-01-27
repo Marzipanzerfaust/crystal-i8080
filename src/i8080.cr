@@ -1,13 +1,17 @@
 require "./i8080/*"
 
 module I8080
-  VERSION = "0.1.12"
+  VERSION = "0.1.13"
 
   # For the Intel 8080, bytes are unsigned 8-bit integers.
   alias Byte = UInt8
 
   # For the Intel 8080, words are unsigned 16-bit integers (two bytes).
   alias Word = UInt16
+
+  # The i8080's clock rate is 2MHz. This is used internally for
+  # determining the interrupt period.
+  CLOCK_RATE = 2_000_000
 
   # :nodoc:
   #
