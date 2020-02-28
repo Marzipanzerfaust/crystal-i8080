@@ -1,6 +1,6 @@
 # crystal-i8080
 
-**WIP: partly functional**
+**WIP: mostly functional**
 
 This is a simple intrepretive emulator for the [Intel 8080](https://en.wikipedia.org/wiki/Intel_8080) written in [Crystal](https://crystal-lang.org/). It is intended to be used as a core for projects that require an embedded i8080 CPU. I wrote it because 1) I wanted to learn more about Crystal and 2) I wanted to learn about writing emulators.
 
