@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.32.0">
+<meta name="generator" content="Crystal Docs 0.32.1">
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
@@ -14,8 +14,8 @@
   </symbol>
 </svg>
 
-  <meta id="repository-name" content="github.com/Marzipanzerfaust/crystal-i8080">
-  <title>I8080::CPMMachine - github.com/Marzipanzerfaust/crystal-i8080</title>
+  <meta id="repository-name" content="github.com/marzipanzerfaust/crystal-i8080">
+  <title>I8080::CPMMachine - github.com/marzipanzerfaust/crystal-i8080</title>
   <script type="text/javascript">
     CrystalDoc.base_path = "../";
   </script>
@@ -40,37 +40,37 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent open current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
+  <li class="parent open current" data-id="github.com/marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
       <a href="../I8080.html">I8080</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
       <a href="../I8080/Byte.html">Byte</a>
       
     </li>
   
-  <li class=" current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
+  <li class=" current" data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
       <a href="../I8080/CPMMachine.html">CPMMachine</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
       <a href="../I8080/CPU.html">CPU</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
       <a href="../I8080/Disassembler.html">Disassembler</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
       <a href="../I8080/Pair.html">Pair</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
       <a href="../I8080/Word.html">Word</a>
       
     </li>
@@ -148,7 +148,7 @@ that describes all of the BDOS calls in CP/M.</p>
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/cpm_machine.cr#L31" target="_blank">
+      <a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/cpm_machine.cr#L31" target="_blank">
         i8080/cpm_machine.cr
       </a>
     
@@ -199,8 +199,8 @@ that describes all of the BDOS calls in CP/M.</p>
     c</a>, 
     
   
-    <a href="../I8080/CPU.html#cycles:Float64-instance-method" class="tooltip">
-      <span>cycles : Float64</span>
+    <a href="../I8080/CPU.html#cycles:Int32-instance-method" class="tooltip">
+      <span>cycles : Int32</span>
     cycles</a>, 
     
   
@@ -219,19 +219,14 @@ that describes all of the BDOS calls in CP/M.</p>
     de</a>, 
     
   
-    <a href="../I8080/CPU.html#debug:Bool-instance-method" class="tooltip">
-      <span>debug : Bool</span>
-    debug</a>, 
+    <a href="../I8080/CPU.html#debug?:Bool-instance-method" class="tooltip">
+      <span>debug? : Bool</span>
+    debug?</a>, 
     
   
     <a href="../I8080/CPU.html#e:::Pointer(Byte)-instance-method" class="tooltip">
       <span>e : ::Pointer(Byte)</span>
     e</a>, 
-    
-  
-    <a href="../I8080/CPU.html#exec:Nil-instance-method" class="tooltip">
-      <span>exec : Nil</span>
-    exec</a>, 
     
   
     <a href="../I8080/CPU.html#f:::Pointer(Byte)-instance-method" class="tooltip">
@@ -259,33 +254,23 @@ that describes all of the BDOS calls in CP/M.</p>
     hl</a>, 
     
   
-    <a href="../I8080/CPU.html#int_callback:Nil-instance-method" class="tooltip">
-      <span>int_callback : Nil</span>
-    int_callback</a>, 
+    <a href="../I8080/CPU.html#int_enabled?:Bool-instance-method" class="tooltip">
+      <span>int_enabled? : Bool</span>
+    int_enabled?</a>, 
     
   
-    <a href="../I8080/CPU.html#int_enabled:Bool-instance-method" class="tooltip">
-      <span>int_enabled : Bool</span>
-    int_enabled</a>, 
-    
-  
-    <a href="../I8080/CPU.html#int_period:Float64-instance-method" class="tooltip">
-      <span>int_period : Float64</span>
+    <a href="../I8080/CPU.html#int_period:Int32-instance-method" class="tooltip">
+      <span>int_period : Int32</span>
     int_period</a>, 
     
   
-    <a href="../I8080/CPU.html#int_request:UInt8-instance-method" class="tooltip">
-      <span>int_request : UInt8</span>
-    int_request</a>, 
+    <a href="../I8080/CPU.html#interrupt(code:Byte):Nil-instance-method" class="tooltip">
+      <span>interrupt(code : Byte) : Nil</span>
+    interrupt</a>, 
     
   
-    <a href="../I8080/CPU.html#int_request=(int_request)-instance-method" class="tooltip">
-      <span>int_request=(int_request)</span>
-    int_request=</a>, 
-    
-  
-    <a href="../I8080/CPU.html#io:Slice(UInt8)-instance-method" class="tooltip">
-      <span>io : Slice(UInt8)</span>
+    <a href="../I8080/CPU.html#io:Pointer(UInt8)-instance-method" class="tooltip">
+      <span>io : Pointer(UInt8)</span>
     io</a>, 
     
   
@@ -299,8 +284,8 @@ that describes all of the BDOS calls in CP/M.</p>
     load_file</a>, 
     
   
-    <a href="../I8080/CPU.html#memory:Slice(UInt8)-instance-method" class="tooltip">
-      <span>memory : Slice(UInt8)</span>
+    <a href="../I8080/CPU.html#memory:Pointer(UInt8)-instance-method" class="tooltip">
+      <span>memory : Pointer(UInt8)</span>
     memory</a>, 
     
   
@@ -369,8 +354,8 @@ that describes all of the BDOS calls in CP/M.</p>
     set_flag</a>, 
     
   
-    <a href="../I8080/CPU.html#set_int_period(fps:Number):Nil-instance-method" class="tooltip">
-      <span>set_int_period(fps : Number) : Nil</span>
+    <a href="../I8080/CPU.html#set_int_period(freq:Number):Nil-instance-method" class="tooltip">
+      <span>set_int_period(freq : Number) : Nil</span>
     set_int_period</a>, 
     
   
@@ -384,14 +369,14 @@ that describes all of the BDOS calls in CP/M.</p>
     sp</a>, 
     
   
-    <a href="../I8080/CPU.html#step(n=1):Nil-instance-method" class="tooltip">
-      <span>step(n = <span class="n">1</span>) : Nil</span>
+    <a href="../I8080/CPU.html#step:Nil-instance-method" class="tooltip">
+      <span>step : Nil</span>
     step</a>, 
     
   
-    <a href="../I8080/CPU.html#stopped:Bool-instance-method" class="tooltip">
-      <span>stopped : Bool</span>
-    stopped</a>, 
+    <a href="../I8080/CPU.html#stopped?:Bool-instance-method" class="tooltip">
+      <span>stopped? : Bool</span>
+    stopped?</a>, 
     
   
     <a href="../I8080/CPU.html#write_byte(addr:Word,value:Byte):Nil-instance-method" class="tooltip">

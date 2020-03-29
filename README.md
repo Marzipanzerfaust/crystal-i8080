@@ -17,7 +17,7 @@ If you have Crystal installed, you can check the test results yourself by runnin
 ```
 dependencies:
   i8080:
-    github: Marzipanzerfaust/crystal-i8080
+    github: jlcrochet/crystal-i8080
 ```
 
 2. Run `shards install`
@@ -66,4 +66,4 @@ cpm_machine = I8080::CPMMachine.new
 cpm_machine.load_file("path/to/cpm/program")
 ```
 
-For more details, check the [documentation](https://marzipanzerfaust.github.io/crystal-i8080).
+For more details, check the [documentation](https://jlcrochet.github.io/crystal-i8080).

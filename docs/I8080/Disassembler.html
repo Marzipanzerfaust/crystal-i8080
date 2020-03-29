@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.32.0">
+<meta name="generator" content="Crystal Docs 0.32.1">
 
 <link href="../css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="../js/doc.js"></script>
@@ -14,8 +14,8 @@
   </symbol>
 </svg>
 
-  <meta id="repository-name" content="github.com/Marzipanzerfaust/crystal-i8080">
-  <title>I8080::Disassembler - github.com/Marzipanzerfaust/crystal-i8080</title>
+  <meta id="repository-name" content="github.com/marzipanzerfaust/crystal-i8080">
+  <title>I8080::Disassembler - github.com/marzipanzerfaust/crystal-i8080</title>
   <script type="text/javascript">
     CrystalDoc.base_path = "../";
   </script>
@@ -40,37 +40,37 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent open current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
+  <li class="parent open current" data-id="github.com/marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
       <a href="../I8080.html">I8080</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
       <a href="../I8080/Byte.html">Byte</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
       <a href="../I8080/CPMMachine.html">CPMMachine</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
       <a href="../I8080/CPU.html">CPU</a>
       
     </li>
   
-  <li class=" current" data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
+  <li class=" current" data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
       <a href="../I8080/Disassembler.html">Disassembler</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
       <a href="../I8080/Pair.html">Pair</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
       <a href="../I8080/Word.html">Word</a>
       
     </li>
@@ -116,8 +116,8 @@
 dasm.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 dasm.run
 <span class="c"># Output:</span>
-<span class="c"># 0000: 31 34 12    LXI    SP,$1234</span>
-<span class="c"># 0003: 3E 56       MVI    A,$56</span>
+<span class="c"># 0000: 31 34 12  LXI    SP,$1234</span>
+<span class="c"># 0003: 3E 56     MVI    A,$56</span>
 <span class="c"># ...</span></code></pre>
 
 
@@ -143,7 +143,7 @@ dasm.run
   </h2>
   
     
-      <a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L13" target="_blank">
+      <a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L13" target="_blank">
         i8080/disassembler.cr
       </a>
     
@@ -214,6 +214,13 @@ dasm.run
       </li>
     
       <li class="entry-summary">
+        <a href="#disassemble(x:Byte,label=nil)-instance-method" class="signature"><strong>#disassemble</strong>(x : Byte, label = <span class="n">nil</span>)</a>
+        
+          <div class="summary"><p>Disassembles the given opcode <em>x</em> and prints.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#file_size:Int32-instance-method" class="signature"><strong>#file_size</strong> : Int32</a>
         
           <div class="summary"><p>The size of the loaded file in bytes.</p></div>
@@ -228,7 +235,7 @@ dasm.run
       </li>
     
       <li class="entry-summary">
-        <a href="#memory:Bytes-instance-method" class="signature"><strong>#memory</strong> : Bytes</a>
+        <a href="#memory:::Pointer(Byte)-instance-method" class="signature"><strong>#memory</strong> : ::Pointer(Byte)</a>
         
           <div class="summary"><p>The disassembler's memory space, used to hold the contents of the loaded file.</p></div>
         
@@ -312,7 +319,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -328,7 +335,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -363,7 +370,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -384,7 +391,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -407,7 +414,28 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="disassemble(x:Byte,label=nil)-instance-method">
+      <div class="signature">
+        
+        def <strong>disassemble</strong>(x : <a href="../I8080/Byte.html">Byte</a>, label = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#disassemble(x:Byte,label=nil)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Disassembles the given opcode <em>x</em> and prints.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L594" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -428,7 +456,7 @@ existing <code><a href="../I8080/CPU.html">CPU</a></code>'s memory space.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L18" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -450,17 +478,17 @@ then returns the file's size in bytes.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L48" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L48" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="memory:Bytes-instance-method">
+    <div class="entry-detail" id="memory:::Pointer(Byte)-instance-method">
       <div class="signature">
         
-        def <strong>memory</strong> : Bytes
+        def <strong>memory</strong> : ::Pointer(<a href="../I8080/Byte.html">Byte</a>)
 
-        <a class="method-permalink" href="#memory:Bytes-instance-method">#</a>
+        <a class="method-permalink" href="#memory:::Pointer(Byte)-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -472,7 +500,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -493,7 +521,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -514,7 +542,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L661" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L665" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -535,7 +563,7 @@ loaded file.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/Marzipanzerfaust/crystal-i8080/blob/af5411fef59d1946deed13aba5471c3834c47a9c/src/i8080/disassembler.cr#L653" target="_blank">View source</a>]
+          [<a href="https://github.com/marzipanzerfaust/crystal-i8080/blob/eed9f8655dd054a5fcbad4ccf3942f9d2f8b5bd8/src/i8080/disassembler.cr#L657" target="_blank">View source</a>]
         
       </div>
     </div>

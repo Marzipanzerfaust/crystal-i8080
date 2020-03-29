@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.32.0">
+<meta name="generator" content="Crystal Docs 0.32.1">
 
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
@@ -14,8 +14,8 @@
   </symbol>
 </svg>
 
-  <meta id="repository-name" content="github.com/Marzipanzerfaust/crystal-i8080">
-  <title>README - github.com/Marzipanzerfaust/crystal-i8080</title>
+  <meta id="repository-name" content="github.com/marzipanzerfaust/crystal-i8080">
+  <title>README - github.com/marzipanzerfaust/crystal-i8080</title>
   <script type="text/javascript">
   CrystalDoc.base_path = "";
   </script>
@@ -40,37 +40,37 @@
   <div class="types-list">
     <ul>
   
-  <li class="parent " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
+  <li class="parent " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080" data-name="i8080">
       <a href="I8080.html">I8080</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Byte" data-name="i8080::byte">
       <a href="I8080/Byte.html">Byte</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPMMachine" data-name="i8080::cpmmachine">
       <a href="I8080/CPMMachine.html">CPMMachine</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/CPU" data-name="i8080::cpu">
       <a href="I8080/CPU.html">CPU</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Disassembler" data-name="i8080::disassembler">
       <a href="I8080/Disassembler.html">Disassembler</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Pair" data-name="i8080::pair">
       <a href="I8080/Pair.html">Pair</a>
       
     </li>
   
-  <li class=" " data-id="github.com/Marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
+  <li class=" " data-id="github.com/marzipanzerfaust/crystal-i8080/I8080/Word" data-name="i8080::word">
       <a href="I8080/Word.html">Word</a>
       
     </li>
@@ -93,7 +93,7 @@
   </svg>
 </a>crystal-i8080</h1>
 
-<p><strong>WIP: partly functional</strong></p>
+<p><strong>WIP: mostly functional</strong></p>
 
 <p>This is a simple intrepretive emulator for the <a href="https://en.wikipedia.org/wiki/Intel_8080" target="_blank">Intel 8080</a> written in <a href="https://crystal-lang.org/" target="_blank">Crystal</a>. It is intended to be used as a core for projects that require an embedded i8080 CPU. I wrote it because 1) I wanted to learn more about Crystal and 2) I wanted to learn about writing emulators.</p>
 
@@ -113,7 +113,7 @@
 
 <pre><code>dependencies:
   i8080:
-    github: <span class="t">Marzipanzerfaust</span><span class="s">/crystal-i8080</code></pre>
+    github: jlcrochet<span class="s">/crystal-i8080</code></pre>
 
 <ol><li>Run <code>shards install</code></li></ol>
 
@@ -137,26 +137,25 @@ cpu.run</code></pre>
 dasm.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
 dasm.run
 <span class="c"># Output:</span>
-<span class="c"># 0000: 3E 56       MVI    A,$56</span>
-<span class="c"># 0002: CE BE       ACI    $BE</span>
-<span class="c"># 0004: CE 42       ACI    $42</span>
+<span class="c"># 0000: 3E 56     MVI    A,$56</span>
+<span class="c"># 0002: CE BE     ACI    $BE</span>
+<span class="c"># 0004: CE 42     ACI    $42</span>
 <span class="c"># ...</span></code></pre>
 
 <p>Alternatively, you can create a CPU in debug mode, which will use an embedded disassembler to print instructions to STDOUT as they're executed:</p>
 
 <pre><code class="language-crystal">cpu <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPU</span>.<span class="k">new</span>(debug: <span class="n">true</span>)
 cpu.load_file(<span class="s">&quot;path/to/rom&quot;</span>)
-cpu.step     <span class="c"># =&gt; 0000: 31 5C 02    LXI     SP,$025C</span>
-cpu.step     <span class="c"># =&gt; 0003: 01 FF 03    LXI     B,$03FF</span>
-cpu.step(<span class="n">2</span>)  <span class="c"># =&gt; 0006: C5          PUSH    B</span>
-             <span class="c"># =&gt; 0007: 2A 5A 02    LHLD    ($025A)</span></code></pre>
+cpu.step     <span class="c"># =&gt; 0000: 31 5C 02  LXI     SP,$025C</span>
+cpu.step     <span class="c"># =&gt; 0003: 01 FF 03  LXI     B,$03FF</span>
+cpu.step     <span class="c"># =&gt; 0006: C5        PUSH    B</span></code></pre>
 
 <p>There is also a very barebones CP/M implementation:</p>
 
 <pre><code class="language-crystal">cpm_machine <span class="o">=</span> <span class="t">I8080</span><span class="t">::</span><span class="t">CPMMachine</span>.<span class="k">new</span>
 cpm_machine.load_file(<span class="s">&quot;path/to/cpm/program&quot;</span>)</code></pre>
 
-<p>For more details, check the <a href="https://marzipanzerfaust.github.io/crystal-i8080" target="_blank">documentation</a>.</p>
+<p>For more details, check the <a href="https://jlcrochet.github.io/crystal-i8080" target="_blank">documentation</a>.</p>
 </div>
 </body>
 </html>
